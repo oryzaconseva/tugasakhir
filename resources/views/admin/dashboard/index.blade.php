@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 <!-- DASHBOARD CANVAS -->
-<div class="p-lg space-y-lg">
+<div class="space-y-lg">
 <!-- METRIC CARDS -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
 <!-- Card 1 -->

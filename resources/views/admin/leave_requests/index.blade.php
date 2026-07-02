@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="p-xl space-y-xl">
+<div class="space-y-xl">
     <!-- Modern Header Section -->
     <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-lg bg-white p-lg rounded-2xl border border-outline-variant/20 shadow-sm">
         <div>
@@ -9,18 +9,18 @@
             <p class="text-sm text-on-surface-variant font-medium mt-1">Manage and verify intern leave requests</p>
         </div>
         
-        <div class="flex items-center gap-4">
-            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-4 py-2 text-center">
-                <span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Pending</span>
-                <span class="block text-xl font-black text-secondary">{{ $pendingCount ?? 0 }}</span>
+        <div class="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-4 w-full lg:w-auto">
+            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Pending</span>
+                <span class="block text-lg sm:text-xl font-black text-secondary">{{ $pendingCount ?? 0 }}</span>
             </div>
-            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-4 py-2 text-center">
-                <span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Resolved</span>
-                <span class="block text-xl font-black text-primary">{{ ($totalRequests ?? 0) - ($pendingCount ?? 0) }}</span>
+            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Resolved</span>
+                <span class="block text-lg sm:text-xl font-black text-primary">{{ ($totalRequests ?? 0) - ($pendingCount ?? 0) }}</span>
             </div>
-            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-4 py-2 text-center">
-                <span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Success Rate</span>
-                <span class="block text-xl font-black text-primary">{{ $successRate ?? 0 }}%</span>
+            <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Success</span>
+                <span class="block text-lg sm:text-xl font-black text-primary">{{ $successRate ?? 0 }}%</span>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
     <!-- Table Section -->
     <div class="bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col h-full">
         <div class="overflow-x-auto flex-1">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left border-collapse min-w-[850px]">
                 <thead>
                     <tr class="bg-surface-container-low/30 border-b border-outline-variant/10">
                         <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Student</th>

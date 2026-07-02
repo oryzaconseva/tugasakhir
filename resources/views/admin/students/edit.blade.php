@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="pt-8 pb-12 px-6 lg:px-12 max-w-6xl mx-auto">
+<div class="py-6 md:py-10 px-4 sm:px-8 lg:px-12 max-w-6xl mx-auto">
 <!-- Breadcrumbs -->
 <nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-6 font-medium">
 <a class="hover:text-primary transition-colors" href="{{ route('admin.students.index') }}">Students</a>
@@ -75,7 +75,7 @@
 </div>
 <!-- Right: Form Content Area -->
 <div class="lg:col-span-8">
-<div class="bg-surface-container-lowest rounded-3xl p-8 md:p-12 shadow-[0px_4px_20px_rgba(0,0,0,0.02)]">
+<div class="bg-surface-container-lowest rounded-3xl p-5 sm:p-8 md:p-12 shadow-[0px_4px_20px_rgba(0,0,0,0.02)]">
 <form action="{{ route('admin.students.update', $student->id) }}" method="POST" class="space-y-8">
     @csrf
     @method('PUT')

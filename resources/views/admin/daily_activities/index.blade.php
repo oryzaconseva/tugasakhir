@@ -84,7 +84,7 @@ Generate Report (PDF)
 </h2>
 </div>
 <div class="overflow-x-auto">
-<table class="w-full text-left">
+<table class="w-full text-left min-w-[800px]">
 @if($reportType === 'daily_activities')
 <thead class="bg-surface-container-low border-b border-outline-variant">
 <tr>
@@ -270,7 +270,7 @@ Generate Report (PDF)
 </div>
 <!-- View Daily Activity Modal -->
 <div id="viewActivityModal" class="fixed inset-0 z-50 flex items-center justify-center p-md bg-on-background/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-surface-container-lowest rounded-2xl w-full max-w-lg shadow-2xl border border-outline-variant overflow-hidden scale-95 transition-all duration-300">
+    <div class="bg-surface-container-lowest rounded-2xl w-[calc(100%-2rem)] sm:w-full sm:max-w-lg shadow-2xl border border-outline-variant overflow-hidden scale-95 transition-all duration-300">
         <!-- Header -->
         <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
             <h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-sm">

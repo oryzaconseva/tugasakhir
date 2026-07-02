@@ -3,7 +3,6 @@
 
 <!-- Top Bar -->
 <!-- Content Area -->
-<div class="flex-1 overflow-y-auto custom-scrollbar p-lg">
 <div class="space-y-xl w-full">
 <!-- Page Header & Stats Bento -->
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-md">
@@ -57,7 +56,7 @@
 </div>
 <!-- Table Responsive Wrapper -->
 <div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
+<table class="w-full text-left border-collapse min-w-[800px]">
 <thead>
 <tr class="bg-surface-container-low border-b border-outline-variant">
 <th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest w-[240px]">Intern Name</th>
@@ -237,7 +236,7 @@
     <div onclick="closeAssignModal()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300"></div>
     
     <!-- Modal Box -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="assignModalBox">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full sm:max-w-lg bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="assignModalBox">
         <!-- Header -->
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">

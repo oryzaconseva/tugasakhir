@@ -3,7 +3,7 @@
 @section('title', 'Edit Task | InternSync')
 
 @section('content')
-<div class="flex-1 p-8">
+<div class="flex-1 py-6 md:py-10 px-4 sm:px-6 md:px-8">
     <!-- Breadcrumb -->
     <nav class="flex items-center space-x-2 mb-8 text-sm">
         <a href="{{ route('admin.tasks.index') }}" class="text-on-surface-variant hover:text-primary transition-colors">Task Management</a>
@@ -42,7 +42,7 @@
         @endif
 
         <!-- Form Section (Floating Card Style) -->
-        <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-[0_20px_40px_rgba(25,28,30,0.04)]">
+        <div class="bg-surface-container-lowest rounded-3xl p-5 sm:p-8 shadow-[0_20px_40px_rgba(25,28,30,0.04)]">
             <form action="{{ route('admin.tasks.update', $task->id) }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @csrf
                 @method('PUT')

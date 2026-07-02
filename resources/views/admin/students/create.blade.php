@@ -6,7 +6,7 @@
 <!-- TopAppBar -->
 
 <!-- Content Canvas -->
-<div class="pt-8 pb-12 px-12 min-h-screen bg-surface">
+<div class="py-6 md:py-10 px-4 sm:px-8 lg:px-12 bg-surface">
 <div class="max-w-4xl mx-auto">
 <!-- Breadcrumbs -->
 <nav class="flex items-center gap-2 text-xs font-medium text-on-surface-variant mb-6">
@@ -29,7 +29,7 @@
 @endif
 
 <!-- Form Section -->
-<div class="bg-surface-container-lowest rounded-3xl p-10 shadow-[0px_20px_40px_rgba(25,28,30,0.06)] relative overflow-hidden group">
+<div class="bg-surface-container-lowest rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0px_20px_40px_rgba(25,28,30,0.06)] relative overflow-hidden group">
 <!-- Subtle Gradient Accent -->
 <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-container/10 to-transparent rounded-full -mr-20 -mt-20 blur-3xl"></div>
 <form action="{{ route('admin.students.store') }}" method="POST" class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">

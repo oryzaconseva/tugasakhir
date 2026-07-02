@@ -3,7 +3,7 @@
 @section('title', 'Tambah Task | InternSync')
 
 @section('content')
-<div class="p-8 max-w-5xl w-full mx-auto space-y-8 flex-1">
+<div class="py-6 md:py-10 px-4 sm:px-6 md:px-8 max-w-5xl w-full mx-auto space-y-8 flex-1">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-sm">
         <a href="{{ route('admin.tasks.index') }}" class="text-on-surface-variant hover:text-primary transition-colors">Task Management</a>
@@ -32,7 +32,7 @@
     <div class="bg-surface-container-lowest rounded-xl shadow-[0_20px_40px_rgba(25,28,30,0.04)] overflow-hidden transition-all duration-300">
         <form action="{{ route('admin.tasks.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="p-8 space-y-8">
+            <div class="p-5 sm:p-8 space-y-8">
                 <!-- Form Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     

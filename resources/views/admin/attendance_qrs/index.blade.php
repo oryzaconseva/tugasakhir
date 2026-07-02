@@ -6,11 +6,11 @@
 <!-- TopAppBar (Shared Component) -->
 
 <!-- Canvas Area -->
-<section class="flex-1 p-12 flex flex-col items-center justify-center relative overflow-hidden">
+<section class="flex-1 p-4 sm:p-8 md:p-12 flex flex-col items-center justify-center relative overflow-hidden">
 <!-- Background Decorative Elements -->
 <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-<div class="w-full max-w-4xl grid md:grid-cols-5 gap-12 items-center relative z-10">
+<div class="w-full max-w-4xl grid md:grid-cols-5 gap-6 md:gap-12 items-center relative z-10">
 <!-- Left: Session Details -->
 <div class="md:col-span-2 space-y-8 order-2 md:order-1">
 <div class="space-y-2">
@@ -93,7 +93,7 @@
 </div>
 </section>
 <!-- Footer / Branding -->
-<footer class="px-12 py-6 flex justify-between items-center text-[10px] text-on-surface-variant font-medium tracking-wide uppercase">
+<footer class="px-4 md:px-12 py-6 flex justify-between items-center text-[10px] text-on-surface-variant font-medium tracking-wide uppercase">
 <div class="flex items-center gap-6">
 <span>© 2024 InternSync Workspace</span>
 <span class="w-1 h-1 bg-outline-variant rounded-full"></span>

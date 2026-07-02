@@ -3,7 +3,7 @@
 
 <!-- TopNavBar -->
 <!-- Page Content -->
-<div class="p-xl space-y-xl">
+<div class="space-y-xl">
 <!-- Modern Header Section -->
 <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-lg bg-white p-lg rounded-2xl border border-outline-variant/20 shadow-sm">
 <div class="flex items-center gap-lg">
@@ -27,7 +27,7 @@
 </div>
 </div>
 </div>
-<div class="flex items-center gap-md self-end lg:self-center">
+<div class="flex items-center gap-md w-full lg:w-auto justify-between lg:justify-end">
 <form method="GET" action="{{ route('admin.attendances.index') }}" class="relative">
 <input name="date" onchange="this.form.submit()" class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl py-3 pl-11 pr-4 text-sm font-semibold text-on-surface focus:ring-2 focus:ring-primary appearance-none cursor-pointer hover:border-primary/50 transition-all outline-none" type="date" value="{{ $selectedDate ?? date('Y-m-d') }}">
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">calendar_month</span>
@@ -51,7 +51,7 @@
                         </button>
 </div>
 <div class="overflow-x-auto flex-1">
-<table class="w-full text-left border-collapse">
+<table class="w-full text-left border-collapse min-w-[700px]">
 <thead>
 <tr class="bg-surface-container-low/30 border-b border-outline-variant/10">
 <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Student</th>

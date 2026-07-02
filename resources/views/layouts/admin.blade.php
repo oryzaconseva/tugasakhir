@@ -142,12 +142,15 @@
         $currentRoute = Route::currentRouteName();
     @endphp
 
+    <!-- Sidebar Backdrop for Mobile -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-300 opacity-0"></div>
+
     <!-- Sidebar -->
     <aside
-        class="hidden md:flex h-screen w-[300px] fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex-col p-lg z-50"
+        class="fixed inset-y-0 left-0 z-50 h-screen w-[300px] bg-surface-container-low border-r border-outline-variant flex-col p-lg transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:flex"
         id="sidebar">
         <!-- Logo Section with nice padding at top to avoid being squeezed to the top -->
-        <div class="pt-4 pb-6 px-md border-b border-outline-variant/30 mb-6">
+        <div class="pt-4 pb-6 px-md border-b border-outline-variant/30 mb-6 flex items-center justify-between">
             <div class="flex items-center gap-sm">
                 <div class="w-10 h-10 flex items-center justify-center">
                     <img alt="Millennia Logo" class="w-full h-full object-contain" src="{{ asset('images/logo.png') }}">
@@ -157,6 +160,10 @@
                     <p class="font-label-md text-[10px] text-on-surface-variant tracking-widest uppercase mt-1">MENTOR PORTAL</p>
                 </div>
             </div>
+            <!-- Close Button for Mobile -->
+            <button id="close-sidebar-btn" class="md:hidden p-1 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-all flex items-center justify-center">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
 
         <!-- Sidebar Navigation grouped by category -->
@@ -233,7 +240,7 @@
     </aside>
     <!-- Top Navigation Bar -->
     <header
-        class="w-full md:w-[calc(100%-300px)] h-16 fixed top-0 right-0 z-40 bg-surface-container-lowest shadow-sm flex justify-between items-center px-lg">
+        class="w-full md:w-[calc(100%-300px)] h-16 fixed top-0 right-0 z-40 bg-surface-container-lowest shadow-sm flex justify-between items-center px-4 md:px-lg">
         <div class="flex items-center flex-1 max-w-xl">
             <div class="relative w-full hidden sm:block">
                 <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline"
@@ -242,9 +249,9 @@
                     class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-md text-sm focus:ring-2 focus:ring-primary"
                     placeholder="Search interns or records..." type="text">
             </div>
-            <div class="md:hidden">
-                <span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
-            </div>
+            <button id="menu-toggle-btn" class="md:hidden p-2 -ml-2 text-primary hover:bg-surface-container-high rounded-full transition-all flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">menu</span>
+            </button>
         </div>
         <div class="flex items-center gap-md ml-lg">
             <button
@@ -264,7 +271,7 @@
     </header>
 
     <!-- Main Content Canvas -->
-    <main class="flex-1 md:ml-[300px] mt-16 p-xl overflow-y-auto custom-scrollbar h-[calc(100vh-4rem)] w-full">
+    <main class="flex-1 md:ml-[300px] mt-16 p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar h-[calc(100vh-4rem)] w-full">
         @yield('content')
     </main>
 
@@ -280,6 +287,32 @@
                 this.classList.remove('scale-95');
             });
         });
+
+        // Mobile Sidebar Toggling logic
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+        function openSidebar() {
+            backdrop.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                sidebar.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+            }, 300);
+        }
+
+        if (menuToggleBtn) menuToggleBtn.addEventListener('click', openSidebar);
+        if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+        if (backdrop) backdrop.addEventListener('click', closeSidebar);
     </script>
 
     @stack('scripts')

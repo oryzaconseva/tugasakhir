@@ -2,7 +2,7 @@
 @section('content')
 
 <!-- Desktop Header area (Search & Profile) -->
-<div class="p-margin-mobile md:p-xl flex-1 flex flex-col">
+<div class="flex-1 flex flex-col space-y-lg">
 <!-- Page Header -->
 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-md mb-lg">
 <div>
@@ -139,7 +139,7 @@
     <div onclick="closeAddModal()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300"></div>
     
     <!-- Modal Box -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="addModalBox">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full sm:max-w-xl bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="addModalBox">
         <!-- Header -->
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
@@ -228,7 +228,7 @@
     <div onclick="closeEditModal()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300"></div>
     
     <!-- Modal Box -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="editModalBox">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full sm:max-w-xl bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="editModalBox">
         <!-- Header -->
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
