@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +60,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('attendance-qrs', [AttendanceQrController::class, 'index'])->name('attendance_qrs.index');
         Route::post('attendance-qrs/generate', [AttendanceQrController::class, 'generate'])->name('attendance_qrs.generate');
     });
+});
+
+Route::get('/storage/leave_requests/{filename}', function ($filename) {
+    $path = storage_path('app/public/leave_requests/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
 });
