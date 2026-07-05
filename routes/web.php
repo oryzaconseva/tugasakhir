@@ -62,7 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::get('/storage/leave_requests/{filename}', function ($filename) {
+Route::get('/view-leave-request/{filename}', function ($filename) {
     $path = storage_path('app/public/leave_requests/' . $filename);
 
     if (!file_exists($path)) {
@@ -70,4 +70,5 @@ Route::get('/storage/leave_requests/{filename}', function ($filename) {
     }
 
     return response()->file($path);
-});
+})->name('admin.view_leave_file');
+

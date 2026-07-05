@@ -97,7 +97,7 @@
                         <!-- Attachment -->
                         <td class="px-xl py-4">
                             @if($req->attachment_path)
-                                <a href="{{ asset('storage/' . $req->attachment_path) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary hover:text-white border border-primary/20 hover:border-primary rounded-lg text-xs font-bold transition-all active:scale-95 shadow-sm" title="View uploaded document">
+                                <a href="{{ route('admin.view_leave_file', basename($req->attachment_path)) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary hover:text-white border border-primary/20 hover:border-primary rounded-lg text-xs font-bold transition-all active:scale-95 shadow-sm" title="View uploaded document">
                                     <span class="material-symbols-outlined text-[16px]">visibility</span>
                                     <span>View File</span>
                                 </a>
