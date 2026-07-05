@@ -216,11 +216,7 @@
 
         <!-- Bottom Actions -->
         <div class="mt-auto pt-md border-t border-outline-variant space-y-sm">
-            <button
-                class="w-full bg-secondary text-on-secondary px-md py-3 rounded-xl font-bold text-[14px] flex items-center justify-center gap-sm hover:opacity-90 transition-all active:scale-95 mb-lg shadow-lg">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
-                New Report
-            </button>
+
             <div class="space-y-xs">
                 <div
                     class="flex items-center gap-md text-on-surface-variant px-md py-2.5 hover:bg-surface-container-highest rounded-lg transition-colors cursor-pointer active:scale-95">
@@ -257,9 +253,10 @@
             <button
                 class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative"><span
                     class="material-symbols-outlined">notifications</span></button>
-            <button
-                class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all"><span
-                    class="material-symbols-outlined">settings</span></button>
+            <a href="{{ route('admin.settings.index') }}"
+                class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all flex items-center justify-center" title="Pengaturan">
+                <span class="material-symbols-outlined">settings</span>
+            </a>
             <div class="h-8 w-px bg-outline-variant mx-sm hidden sm:block"></div>
             <div
                 class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-1 pr-4 rounded-full transition-all border border-outline-variant/20">

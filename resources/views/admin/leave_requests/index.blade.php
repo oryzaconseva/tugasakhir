@@ -120,13 +120,8 @@
                         <!-- Action -->
                         <td class="px-xl py-4 text-right">
                             <div class="flex items-center justify-end gap-2 text-right">
-                                <!-- Approve button -->
-                                @if($req->status === 'approved')
-                                    <button type="button" class="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white border border-green-600 rounded-lg text-xs font-semibold cursor-default shadow-sm" disabled>
-                                        <span class="material-symbols-outlined text-[16px] font-bold">check</span>
-                                        <span>Approved</span>
-                                    </button>
-                                @else
+                                @if($req->status === 'pending')
+                                    <!-- Approve button -->
                                     <form action="{{ route('admin.leave_requests.verify', $req->id) }}" method="POST" class="m-0 p-0 inline" onsubmit="showConfirm(event, 'approved')">
                                         @csrf
                                         @method('PATCH')
@@ -136,15 +131,8 @@
                                             <span>Approve</span>
                                         </button>
                                     </form>
-                                @endif
 
-                                <!-- Reject button -->
-                                @if($req->status === 'rejected')
-                                    <button type="button" class="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 text-white border border-red-600 rounded-lg text-xs font-semibold cursor-default shadow-sm" disabled>
-                                        <span class="material-symbols-outlined text-[16px] font-bold">close</span>
-                                        <span>Rejected</span>
-                                    </button>
-                                @else
+                                    <!-- Reject button -->
                                     <form action="{{ route('admin.leave_requests.verify', $req->id) }}" method="POST" class="m-0 p-0 inline" onsubmit="showConfirm(event, 'rejected')">
                                         @csrf
                                         @method('PATCH')
@@ -154,6 +142,16 @@
                                             <span>Reject</span>
                                         </button>
                                     </form>
+                                @elseif($req->status === 'approved')
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-green-700 bg-green-50 rounded-lg border border-green-200" title="Tindakan selesai: Disetujui">
+                                        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        <span>Telah Disetujui</span>
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-red-700 bg-rose-50 rounded-lg border border-rose-200" title="Tindakan selesai: Ditolak">
+                                        <span class="material-symbols-outlined text-[16px]">cancel</span>
+                                        <span>Telah Ditolak</span>
+                                    </span>
                                 @endif
                             </div>
                         </td>

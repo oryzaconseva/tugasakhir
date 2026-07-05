@@ -29,6 +29,23 @@
 </div>
 </div>
 </div>
+
+@if(session('success'))
+<div class="bg-primary/10 border border-primary text-primary px-4 py-3 rounded-lg relative mb-md font-body-md" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if($errors->any())
+<div class="bg-red-500/10 border border-red-500 text-red-600 px-4 py-3 rounded-lg relative mb-md font-body-md animate-pulse" role="alert">
+    <ul class="list-disc list-inside text-sm font-semibold">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <!-- Main Table Section -->
 <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col">
 <!-- Table Actions Bar -->
@@ -140,9 +157,22 @@
 </td>
 <td class="px-lg py-4 text-right">
 <div class="flex items-center justify-end gap-2">
-<a href="{{ route('admin.tasks.edit', $task->id) }}" class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded transition-colors" title="Edit Task">
+<button type="button" 
+    class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded transition-colors edit-task-btn" 
+    title="Edit Task"
+    data-id="{{ $task->id }}"
+    data-title="{{ $task->title }}"
+    data-description="{{ $task->description }}"
+    data-due-date="{{ \Carbon\Carbon::parse($task->due_date)->format('Y-m-d') }}"
+    data-status="{{ $task->status }}"
+    data-priority="{{ $task->priority }}"
+    data-task-file="{{ $task->task_file }}"
+    data-task-proof="{{ $task->task_proof }}"
+    data-student-name="{{ $task->student->name ?? '' }}"
+    data-student-nim="{{ $task->student->nim ?? '' }}"
+>
     <span class="material-symbols-outlined text-[20px]">edit</span>
-</a>
+</button>
 <form action="{{ route('admin.tasks.destroy', $task->id) }}" method="POST" class="inline m-0 p-0" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tugas ini?');">
     @csrf
     @method('DELETE')
@@ -315,6 +345,113 @@
     </div>
 </div>
 
+<!-- Edit Task Modal -->
+<div id="editTaskModal" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div onclick="closeEditTaskModal()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300"></div>
+    
+    <!-- Modal Box -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full sm:max-w-lg bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="editModalBox">
+        <!-- Header -->
+        <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
+            <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-[22px] text-primary">edit_square</span>
+                <span>Edit Task Details</span>
+            </h3>
+            <button onclick="closeEditTaskModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 flex items-center justify-center text-outline transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        
+        <!-- Form -->
+        <form id="editTaskForm" method="POST" enctype="multipart/form-data" class="p-lg space-y-md m-0">
+            @csrf
+            @method('PUT')
+            
+            <!-- Task Title -->
+            <div class="space-y-1">
+                <label for="edit_title" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Title</label>
+                <input type="text" name="title" id="edit_title" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Redesign fitur profile">
+            </div>
+            
+            <!-- Due Date & Priority Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+                <!-- Due Date -->
+                <div class="space-y-1">
+                    <label for="edit_due_date" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Due Date</label>
+                    <input type="date" name="due_date" id="edit_due_date" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+                </div>
+                
+                <!-- Priority -->
+                <div class="space-y-1">
+                    <label for="edit_priority" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Priority</label>
+                    <div class="relative">
+                        <select name="priority" id="edit_priority" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="space-y-1">
+                <label for="edit_status" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Execution Status</label>
+                <div class="relative">
+                    <select name="status" id="edit_status" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
+                </div>
+            </div>
+            
+            <!-- Description -->
+            <div class="space-y-1">
+                <label for="edit_description" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
+                <textarea name="description" id="edit_description" rows="3" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Detail task instructions..."></textarea>
+            </div>
+
+            <!-- Task File Upload -->
+            <div class="space-y-1">
+                <label for="edit_task_file" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Attachment (PDF/ZIP)</label>
+                <input type="file" name="task_file" id="edit_task_file" accept=".pdf,.zip" class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+                <div id="edit_current_attachment"></div>
+            </div>
+
+            <!-- Student Task Proof -->
+            <div class="space-y-1">
+                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Student Proof of Work</label>
+                <div id="edit_task_proof_container"></div>
+            </div>
+
+            <!-- Assigned Member (Read-only) -->
+            <div class="space-y-1">
+                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Assigned Intern (Immutable)</label>
+                <div class="flex items-center p-3 bg-surface-container-low rounded-xl">
+                    <div class="w-10 h-10 rounded-full overflow-hidden mr-3 border-2 border-white shadow-sm flex items-center justify-center bg-primary text-white font-bold text-sm" id="edit_student_avatar">
+                        <span id="edit_student_avatar_text">?</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold text-on-surface" id="edit_student_name">Unknown Student</p>
+                        <p class="text-[10px] text-on-surface-variant font-medium" id="edit_student_nim">NIM: -</p>
+                    </div>
+                    <span class="material-symbols-outlined text-outline-variant text-[18px]">lock</span>
+                </div>
+            </div>
+            
+            <!-- Footer Actions -->
+            <div class="pt-sm border-t border-outline-variant flex justify-end gap-sm">
+                <button type="button" onclick="closeEditTaskModal()" class="px-md py-2 text-slate-700 hover:bg-slate-100 rounded-lg text-sm font-semibold transition-all">Batal</button>
+                <button type="submit" class="px-md py-2 bg-primary text-white hover:bg-primary-container rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95">Update Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     function openAssignModal() {
         const modal = document.getElementById('assignTaskModal');
@@ -337,6 +474,101 @@
             modal.classList.add('hidden');
         }, 300);
     }
+
+    function openEditTaskModal(task) {
+        const modal = document.getElementById('editTaskModal');
+        const box = document.getElementById('editModalBox');
+        const form = document.getElementById('editTaskForm');
+        
+        // Populate inputs
+        document.getElementById('edit_title').value = task.title || '';
+        document.getElementById('edit_description').value = task.description || '';
+        document.getElementById('edit_due_date').value = task.due_date || '';
+        document.getElementById('edit_status').value = task.status || 'pending';
+        document.getElementById('edit_priority').value = task.priority || 'normal';
+        
+        // Current attachment display
+        const currentAttachmentDiv = document.getElementById('edit_current_attachment');
+        if (task.task_file) {
+            currentAttachmentDiv.innerHTML = `
+                <div class="mt-2 text-xs font-medium text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">attachment</span>
+                    <a href="/storage/${task.task_file}" target="_blank" class="hover:underline">View Current Attachment</a>
+                </div>
+            `;
+        } else {
+            currentAttachmentDiv.innerHTML = '';
+        }
+
+        // Student info (read-only)
+        document.getElementById('edit_student_name').textContent = task.student_name || 'Unknown Student';
+        document.getElementById('edit_student_nim').textContent = 'NIM: ' + (task.student_nim || '-');
+        document.getElementById('edit_student_avatar_text').textContent = (task.student_name || '?').substring(0, 1).toUpperCase();
+        
+        // Task proof container
+        const proofDiv = document.getElementById('edit_task_proof_container');
+        if (task.task_proof) {
+            proofDiv.innerHTML = `
+                <div class="w-full bg-teal-50 border border-teal-200 rounded-xl px-4 py-2 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-teal-600 text-sm">check_circle</span>
+                        <span class="text-xs font-semibold text-teal-950">Submitted Proof</span>
+                    </div>
+                    <a href="/storage/${task.task_proof}" target="_blank" class="text-xs font-bold text-teal-700 hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">download</span>
+                        Download Bukti
+                    </a>
+                </div>
+            `;
+        } else {
+            proofDiv.innerHTML = `
+                <div class="w-full bg-surface-container-low border border-dashed border-outline-variant rounded-xl px-4 py-2 flex items-center gap-2 text-on-surface-variant">
+                    <span class="material-symbols-outlined text-xs">info</span>
+                    <span class="text-[11px] font-medium">No proof uploaded yet</span>
+                </div>
+            `;
+        }
+
+        // Set Action URL
+        form.action = `/admin/tasks/${task.id}`;
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            box.classList.remove('scale-95', 'opacity-0');
+            box.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
+    
+    function closeEditTaskModal() {
+        const modal = document.getElementById('editTaskModal');
+        const box = document.getElementById('editModalBox');
+        
+        box.classList.remove('scale-100', 'opacity-100');
+        box.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.edit-task-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const task = {
+                    id: this.getAttribute('data-id'),
+                    title: this.getAttribute('data-title'),
+                    description: this.getAttribute('data-description'),
+                    due_date: this.getAttribute('data-due-date'),
+                    status: this.getAttribute('data-status'),
+                    priority: this.getAttribute('data-priority'),
+                    task_file: this.getAttribute('data-task-file'),
+                    task_proof: this.getAttribute('data-task-proof'),
+                    student_name: this.getAttribute('data-student-name'),
+                    student_nim: this.getAttribute('data-student-nim')
+                };
+                openEditTaskModal(task);
+            });
+        });
+    });
 </script>
 
 @endsection

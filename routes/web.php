@@ -22,6 +22,7 @@ use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\AttendanceQrController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Attendance QR
         Route::get('attendance-qrs', [AttendanceQrController::class, 'index'])->name('attendance_qrs.index');
         Route::post('attendance-qrs/generate', [AttendanceQrController::class, 'generate'])->name('attendance_qrs.generate');
+
+        // Settings
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::post('settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');
+        Route::post('settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password.update');
     });
 });
 

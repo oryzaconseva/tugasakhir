@@ -148,6 +148,8 @@ Generate Report (PDF)
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Date</th>
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Status</th>
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Check In</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Check Out</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Duration</th>
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Notes</th>
 </tr>
 </thead>
@@ -177,12 +179,32 @@ Generate Report (PDF)
         <span class="px-sm py-xs bg-blue-100 text-blue-800 font-label-md rounded font-bold uppercase text-[10px]">{{ $att->status }}</span>
     @endif
 </td>
-<td class="px-lg py-md font-body-md text-on-surface-variant">{{ $att->check_in_time ?? '-' }}</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">{{ $att->check_in_time ? \Carbon\Carbon::parse($att->check_in_time)->format('h:i A') : '-' }}</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">{{ $att->check_out_time ? \Carbon\Carbon::parse($att->check_out_time)->format('h:i A') : '-' }}</td>
+<td class="px-lg py-md font-body-md text-on-surface-variant">
+    @if($att->check_in_time && $att->check_out_time)
+        @php
+            $checkIn = \Carbon\Carbon::parse($att->check_in_time);
+            $checkOut = \Carbon\Carbon::parse($att->check_out_time);
+            $duration = $checkIn->diff($checkOut);
+            $hours = $duration->h;
+            $minutes = $duration->i;
+            $durationStr = "";
+            if ($hours > 0) {
+                $durationStr .= "{$hours}j ";
+            }
+            $durationStr .= "{$minutes}m";
+        @endphp
+        {{ $durationStr }}
+    @else
+        -
+    @endif
+</td>
 <td class="px-lg py-md font-body-md text-on-surface-variant">{{ $att->notes ?? '-' }}</td>
 </tr>
 @empty
 <tr>
-    <td colspan="5" class="px-lg py-8 text-center text-on-surface-variant">Belum ada data presensi.</td>
+    <td colspan="7" class="px-lg py-8 text-center text-on-surface-variant">Belum ada data presensi.</td>
 </tr>
 @endforelse
 </tbody>

@@ -58,6 +58,8 @@
 <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Cohort</th>
 <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Status</th>
 <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Check-In</th>
+<th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Check-Out</th>
+<th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Duration</th>
 <th class="px-xl py-4 text-center"></th>
 </tr>
 </thead>
@@ -96,6 +98,26 @@
     @endif
 </td>
 <td class="px-xl py-5 text-sm font-semibold text-primary">{{ $attendance->check_in_time ? \Carbon\Carbon::parse($attendance->check_in_time)->format('h:i A') : '--:--' }}</td>
+<td class="px-xl py-5 text-sm font-semibold text-primary">{{ $attendance->check_out_time ? \Carbon\Carbon::parse($attendance->check_out_time)->format('h:i A') : '--:--' }}</td>
+<td class="px-xl py-5 text-sm font-medium text-on-surface-variant">
+    @if($attendance->check_in_time && $attendance->check_out_time)
+        @php
+            $checkIn = \Carbon\Carbon::parse($attendance->check_in_time);
+            $checkOut = \Carbon\Carbon::parse($attendance->check_out_time);
+            $duration = $checkIn->diff($checkOut);
+            $hours = $duration->h;
+            $minutes = $duration->i;
+            $durationStr = "";
+            if ($hours > 0) {
+                $durationStr .= "{$hours}j ";
+            }
+            $durationStr .= "{$minutes}m";
+        @endphp
+        {{ $durationStr }}
+    @else
+        -
+    @endif
+</td>
 <td class="px-xl py-5 text-center">
 <button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-primary hover:bg-primary/10 transition-all">
 <span class="material-symbols-outlined text-xl">more_horiz</span>
@@ -104,7 +126,7 @@
 </tr>
 @empty
 <tr>
-    <td colspan="5" class="px-xl py-10 text-center text-on-surface-variant">Belum ada data absensi hari ini.</td>
+    <td colspan="7" class="px-xl py-10 text-center text-on-surface-variant">Belum ada data absensi hari ini.</td>
 </tr>
 @endforelse
 </tbody>

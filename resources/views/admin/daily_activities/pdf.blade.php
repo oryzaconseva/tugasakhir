@@ -94,11 +94,13 @@
                     <th width="5%">No</th>
                     <th width="15%">Date</th>
                     @if($studentName == 'All Students')
-                    <th width="25%">Student Name</th>
+                    <th width="20%">Student Name</th>
                     @endif
-                    <th width="15%">Status</th>
-                    <th width="20%">Check In</th>
-                    <th width="20%">Notes</th>
+                    <th width="12%">Status</th>
+                    <th width="12%">Check In</th>
+                    <th width="12%">Check Out</th>
+                    <th width="12%">Duration</th>
+                    <th width="12%">Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,12 +112,32 @@
                     <td>{{ $att->student->name ?? 'N/A' }}</td>
                     @endif
                     <td>{{ ucfirst($att->status) }}</td>
-                    <td>{{ $att->check_in_time ?? '-' }}</td>
+                    <td>{{ $att->check_in_time ? \Carbon\Carbon::parse($att->check_in_time)->format('h:i A') : '-' }}</td>
+                    <td>{{ $att->check_out_time ? \Carbon\Carbon::parse($att->check_out_time)->format('h:i A') : '-' }}</td>
+                    <td>
+                        @if($att->check_in_time && $att->check_out_time)
+                            @php
+                                $checkIn = \Carbon\Carbon::parse($att->check_in_time);
+                                $checkOut = \Carbon\Carbon::parse($att->check_out_time);
+                                $duration = $checkIn->diff($checkOut);
+                                $hours = $duration->h;
+                                $minutes = $duration->i;
+                                $durationStr = "";
+                                if ($hours > 0) {
+                                    $durationStr .= "{$hours}j ";
+                                }
+                                $durationStr .= "{$minutes}m";
+                            @endphp
+                            {{ $durationStr }}
+                        @else
+                            -
+                        @endif
+                    </td>
                     <td>{{ $att->notes ?? '-' }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="{{ $studentName == 'All Students' ? 6 : 5 }}" class="text-center">No attendance recorded for this period.</td>
+                    <td colspan="{{ $studentName == 'All Students' ? 8 : 7 }}" class="text-center">No attendance recorded for this period.</td>
                 </tr>
                 @endforelse
             </tbody>
