@@ -15,7 +15,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Auto-mark siswa yang tidak hadir setiap hari kerja jam 17:30
+        // Hanya berjalan Senin-Jumat (weekdays)
+        $schedule->command('attendance:mark-absent')
+                 ->weekdays()
+                 ->dailyAt('17:30')
+                 ->withoutOverlapping()
+                 ->appendOutputTo(storage_path('logs/absent-scheduler.log'));
     }
 
     /**

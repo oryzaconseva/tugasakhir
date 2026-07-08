@@ -7,16 +7,16 @@
 <!-- Page Header & Stats Bento -->
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-md">
 <div class="lg:col-span-2 flex flex-col justify-center">
-<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Intern Task Management</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Oversee daily progress and provide feedback to your assigned student groups.</p>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Manajemen Tugas Magang</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Pantau kemajuan harian dan berikan umpan balik kepada kelompok mahasiswa Anda.</p>
 </div>
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant flex items-center gap-md">
 <div class="w-12 h-12 bg-primary-container/10 rounded-full flex items-center justify-center text-primary">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
 </div>
 <div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Review Needed</p>
-<p class="font-headline-md text-headline-md text-primary">{{ $pendingTasksCount ?? 0 }} Tasks</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Perlu Ditinjau</p>
+<p class="font-headline-md text-headline-md text-primary">{{ $pendingTasksCount ?? 0 }} Tugas</p>
 </div>
 </div>
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant flex items-center gap-md">
@@ -24,8 +24,8 @@
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
 </div>
 <div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Tasks</p>
-<p class="font-headline-md text-headline-md text-secondary font-bold">{{ $totalTasksCount ?? 0 }} Tasks</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Tugas</p>
+<p class="font-headline-md text-headline-md text-secondary font-bold">{{ $totalTasksCount ?? 0 }} Tugas</p>
 </div>
 </div>
 </div>
@@ -53,21 +53,21 @@
 <form method="GET" action="{{ route('admin.tasks.index') }}" class="flex items-center gap-sm w-full sm:w-auto">
 <div class="relative w-full sm:w-80">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-body-md">search</span>
-<input name="search" value="{{ request('search') }}" class="w-full bg-background border border-outline-variant rounded-lg pl-10 pr-md py-2 text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Filter by Intern or Task..." type="text">
+<input name="search" value="{{ request('search') }}" class="w-full bg-background border border-outline-variant rounded-lg pl-10 pr-md py-2 text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Cari nama atau judul tugas..." type="text">
 </div>
 <select name="status" onchange="this.form.submit()" class="bg-background border border-outline-variant px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-all font-label-md text-label-md outline-none cursor-pointer appearance-none">
-<option value="all">All Status</option>
-<option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-<option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-<option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+<option value="all">Semua Status</option>
+<option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
+<option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Sedang Dikerjakan</option>
+<option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Selesai</option>
 </select>
 <button type="submit" class="hidden">Search</button>
 </form>
 <div class="flex items-center gap-sm w-full sm:w-auto">
-<button class="flex-1 sm:flex-none px-md py-2 text-on-surface font-label-md text-label-md border border-outline-variant rounded-lg hover:bg-surface-container transition-all">Export CSV</button>
+<button class="flex-1 sm:flex-none px-md py-2 text-on-surface font-label-md text-label-md border border-outline-variant rounded-lg hover:bg-surface-container transition-all">Ekspor CSV</button>
 <button onclick="openAssignModal()" class="flex-1 sm:flex-none px-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-95">
     <span class="material-symbols-outlined text-[18px]">add</span>
-    <span>Assign Task</span>
+    <span>Beri Tugas</span>
 </button>
 </div>
 </div>
@@ -76,12 +76,12 @@
 <table class="w-full text-left border-collapse min-w-[800px]">
 <thead>
 <tr class="bg-surface-container-low border-b border-outline-variant">
-<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest w-[240px]">Intern Name</th>
-<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Task Title</th>
-<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Priority</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest w-[240px]">Nama Mahasiswa</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Judul Tugas</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Prioritas</th>
 <th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Status</th>
-<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Due Date</th>
-<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-right">Actions</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Tenggat</th>
+<th class="px-lg py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-right">Aksi</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant">
@@ -142,13 +142,13 @@
 <div class="flex items-center gap-sm">
     @if($task->status == 'completed')
         <div class="w-2 h-2 rounded-full bg-green-500"></div>
-        <span class="font-body-md text-body-md text-on-surface-variant">Completed</span>
+        <span class="font-body-md text-body-md text-on-surface-variant">Selesai</span>
     @elseif($task->status == 'in_progress')
         <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-        <span class="font-body-md text-body-md text-on-surface-variant">In Progress</span>
+        <span class="font-body-md text-body-md text-on-surface-variant">Sedang Dikerjakan</span>
     @else
         <div class="w-2 h-2 rounded-full bg-amber-500"></div>
-        <span class="font-body-md text-body-md text-on-surface-variant">Pending</span>
+        <span class="font-body-md text-body-md text-on-surface-variant">Menunggu</span>
     @endif
 </div>
 </td>
@@ -186,7 +186,7 @@
 @empty
 <tr>
 <td colspan="6" class="px-lg py-12 text-center text-on-surface-variant">
-    No tasks assigned currently.
+    Belum ada tugas yang diberikan.
 </td>
 </tr>
 @endforelse
@@ -195,7 +195,7 @@
 </div>
 <!-- Pagination -->
 <div class="px-lg py-md bg-surface-container-low flex justify-between items-center border-t border-outline-variant">
-<p class="font-label-md text-label-md text-on-surface-variant">Showing {{ method_exists($tasks, 'total') ? $tasks->total() : $tasks->count() }} tasks</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Menampilkan {{ method_exists($tasks, 'total') ? $tasks->total() : $tasks->count() }} tugas</p>
 <div class="flex items-center gap-sm">
     @if(method_exists($tasks, 'hasPages') && $tasks->hasPages())
         {{ $tasks->links('pagination::tailwind') }}
@@ -215,8 +215,8 @@
 <section class="grid grid-cols-1 md:grid-cols-3 gap-lg">
 <div class="md:col-span-2 bg-surface-container-lowest rounded-xl p-lg shadow-sm border border-outline-variant">
 <div class="flex justify-between items-center mb-md">
-<h3 class="font-headline-md text-headline-md text-primary">Recent Feedback History</h3>
-<button class="text-primary font-label-md text-label-md hover:underline">View All Activities</button>
+<h3 class="font-headline-md text-headline-md text-primary">Riwayat Umpan Balik Terbaru</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">Lihat Semua Aktivitas</button>
 </div>
 <div class="space-y-md">
 <!-- Example Feedback data -->
@@ -224,9 +224,9 @@
     <div class="flex gap-md p-md bg-background rounded-lg border-l-4 border-green-500">
     <span class="material-symbols-outlined text-green-500">check_circle</span>
     <div>
-    <p class="font-body-md text-body-md font-semibold text-primary">Student Evaluated</p>
-    <p class="font-body-md text-body-md text-on-surface-variant">{{ $student->name }} - Tracked completion of {{ $student->completed_tasks_count }} tasks so far.</p>
-    <p class="text-[11px] text-outline mt-1">Recently</p>
+    <p class="font-body-md text-body-md font-semibold text-primary">Mahasiswa Dievaluasi</p>
+    <p class="font-body-md text-body-md text-on-surface-variant">{{ $student->name }} - Melacak penyelesaian {{ $student->completed_tasks_count }} tugas sejauh ini.</p>
+    <p class="text-[11px] text-outline mt-1">Baru-baru ini</p>
     </div>
     </div>
 @endforeach
@@ -235,11 +235,11 @@
 <!-- Performance Overview Widget -->
 <div class="bg-primary-container text-on-primary-container p-lg rounded-xl shadow-xl flex flex-col justify-between overflow-hidden relative">
 <div class="z-10">
-<h3 class="font-headline-md text-headline-md font-bold mb-1">Batch Performance</h3>
-<p class="opacity-80 font-label-md text-label-md">Current Sprint Progress</p>
+<h3 class="font-headline-md text-headline-md font-bold mb-1">Performa Batch</h3>
+<p class="opacity-80 font-label-md text-label-md">Progres Sprint Saat Ini</p>
 <div class="mt-lg">
 <div class="flex justify-between font-label-md text-label-md mb-2">
-<span class="">Sprint Goal Completion</span>
+<span class="">Penyelesaian Target Sprint</span>
 <span class="">{{ $pendingTasksCount ? min(100, round((($totalTasksCount - $pendingTasksCount) / max(1, $totalTasksCount)) * 100)) : 100 }}%</span>
 </div>
 <div class="w-full bg-white/20 h-2 rounded-full">
@@ -248,11 +248,11 @@
 </div>
 <div class="mt-lg grid grid-cols-2 gap-sm">
 <div class="p-sm bg-white/10 rounded-lg">
-<p class="text-[10px] uppercase opacity-70">Completed</p>
+<p class="text-[10px] uppercase opacity-70">Selesai</p>
 <p class="text-xl font-bold">{{ $totalTasksCount - $pendingTasksCount }}</p>
 </div>
 <div class="p-sm bg-white/10 rounded-lg">
-<p class="text-[10px] uppercase opacity-70">In Review/Pending</p>
+<p class="text-[10px] uppercase opacity-70">Ditinjau/Menunggu</p>
 <p class="text-xl font-bold">{{ $pendingTasksCount }}</p>
 </div>
 </div>
@@ -271,7 +271,7 @@
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
                 <span class="material-symbols-outlined text-[22px] text-primary">add_task</span>
-                <span>Assign New Task</span>
+                <span>Beri Tugas Baru</span>
             </h3>
             <button onclick="closeAssignModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 flex items-center justify-center text-outline transition-colors">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -284,16 +284,16 @@
             
             <!-- Task Title -->
             <div class="space-y-1">
-                <label for="task_title" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Title</label>
+                <label for="task_title" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Judul Tugas</label>
                 <input type="text" name="title" id="task_title" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Redesign fitur profile">
             </div>
             
             <!-- Assign To -->
             <div class="space-y-1">
-                <label for="task_assign_to" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Assign To</label>
+                <label for="task_assign_to" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Ditugaskan Ke</label>
                 <div class="relative">
                     <select name="student_ids[]" id="task_assign_to" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
-                        <option value="" disabled selected>Select an Intern...</option>
+                        <option value="" disabled selected>Pilih Mahasiswa...</option>
                         @foreach($students as $student)
                             <option value="{{ $student->id }}">{{ $student->name }} ({{ $student->nim }})</option>
                         @endforeach
@@ -306,18 +306,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
                 <!-- Due Date -->
                 <div class="space-y-1">
-                    <label for="task_due_date" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Due Date</label>
+                    <label for="task_due_date" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Tanggal Tenggat</label>
                     <input type="date" name="due_date" id="task_due_date" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
                 
                 <!-- Priority -->
                 <div class="space-y-1">
-                    <label for="task_priority" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Priority</label>
+                    <label for="task_priority" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Prioritas</label>
                     <div class="relative">
                         <select name="priority" id="task_priority" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
                             <option value="normal">Normal</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
+                            <option value="high">Tinggi</option>
+                            <option value="urgent">Mendesak</option>
                         </select>
                         <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
                     </div>
@@ -326,13 +326,13 @@
             
             <!-- Description -->
             <div class="space-y-1">
-                <label for="task_description" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
-                <textarea name="description" id="task_description" rows="4" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Detail task instructions..."></textarea>
+                <label for="task_description" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Deskripsi</label>
+                <textarea name="description" id="task_description" rows="4" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Detail instruksi tugas..."></textarea>
             </div>
 
             <!-- Task File Upload -->
             <div class="space-y-1">
-                <label for="task_file" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Attachment (PDF/ZIP)</label>
+                <label for="task_file" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Lampiran Tugas (PDF/ZIP)</label>
                 <input type="file" name="task_file" id="task_file" accept=".pdf,.zip" class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
             </div>
             
@@ -356,7 +356,7 @@
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
                 <span class="material-symbols-outlined text-[22px] text-primary">edit_square</span>
-                <span>Edit Task Details</span>
+                <span>Edit Detail Tugas</span>
             </h3>
             <button onclick="closeEditTaskModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 flex items-center justify-center text-outline transition-colors">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -370,7 +370,7 @@
             
             <!-- Task Title -->
             <div class="space-y-1">
-                <label for="edit_title" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Title</label>
+                <label for="edit_title" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Judul Tugas</label>
                 <input type="text" name="title" id="edit_title" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g. Redesign fitur profile">
             </div>
             
@@ -378,18 +378,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
                 <!-- Due Date -->
                 <div class="space-y-1">
-                    <label for="edit_due_date" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Due Date</label>
+                    <label for="edit_due_date" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Tanggal Tenggat</label>
                     <input type="date" name="due_date" id="edit_due_date" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
                 
                 <!-- Priority -->
                 <div class="space-y-1">
-                    <label for="edit_priority" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Priority</label>
+                    <label for="edit_priority" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Prioritas</label>
                     <div class="relative">
                         <select name="priority" id="edit_priority" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
                             <option value="normal">Normal</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
+                            <option value="high">Tinggi</option>
+                            <option value="urgent">Mendesak</option>
                         </select>
                         <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
                     </div>
@@ -398,12 +398,12 @@
 
             <!-- Status -->
             <div class="space-y-1">
-                <label for="edit_status" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Execution Status</label>
+                <label for="edit_status" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Status Pengerjaan</label>
                 <div class="relative">
                     <select name="status" id="edit_status" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer appearance-none">
-                        <option value="pending">Pending</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
+                        <option value="pending">Menunggu</option>
+                        <option value="in_progress">Sedang Dikerjakan</option>
+                        <option value="completed">Selesai</option>
                     </select>
                     <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
                 </div>
@@ -411,26 +411,26 @@
             
             <!-- Description -->
             <div class="space-y-1">
-                <label for="edit_description" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
-                <textarea name="description" id="edit_description" rows="3" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Detail task instructions..."></textarea>
+                <label for="edit_description" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Deskripsi</label>
+                <textarea name="description" id="edit_description" rows="3" required class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Detail instruksi tugas..."></textarea>
             </div>
 
             <!-- Task File Upload -->
             <div class="space-y-1">
-                <label for="edit_task_file" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Task Attachment (PDF/ZIP)</label>
+                <label for="edit_task_file" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Lampiran Tugas (PDF/ZIP)</label>
                 <input type="file" name="task_file" id="edit_task_file" accept=".pdf,.zip" class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 <div id="edit_current_attachment"></div>
             </div>
 
             <!-- Student Task Proof -->
             <div class="space-y-1">
-                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Student Proof of Work</label>
+                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Bukti Pengerjaan Mahasiswa</label>
                 <div id="edit_task_proof_container"></div>
             </div>
 
             <!-- Assigned Member (Read-only) -->
             <div class="space-y-1">
-                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Assigned Intern (Immutable)</label>
+                <label class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Mahasiswa yang Ditugaskan (Tidak Dapat Diubah)</label>
                 <div class="flex items-center p-3 bg-surface-container-low rounded-xl">
                     <div class="w-10 h-10 rounded-full overflow-hidden mr-3 border-2 border-white shadow-sm flex items-center justify-center bg-primary text-white font-bold text-sm" id="edit_student_avatar">
                         <span id="edit_student_avatar_text">?</span>
@@ -446,7 +446,7 @@
             <!-- Footer Actions -->
             <div class="pt-sm border-t border-outline-variant flex justify-end gap-sm">
                 <button type="button" onclick="closeEditTaskModal()" class="px-md py-2 text-slate-700 hover:bg-slate-100 rounded-lg text-sm font-semibold transition-all">Batal</button>
-                <button type="submit" class="px-md py-2 bg-primary text-white hover:bg-primary-container rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95">Update Task</button>
+                <button type="submit" class="px-md py-2 bg-primary text-white hover:bg-primary-container rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95">Perbarui Tugas</button>
             </div>
         </form>
     </div>

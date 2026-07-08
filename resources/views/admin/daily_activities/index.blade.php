@@ -3,20 +3,20 @@
 
 <!-- Page Header -->
 <div class="mb-xl">
-<h1 class="font-headline-lg text-headline-lg text-primary">Reports &amp; Export</h1>
-<p class="font-body-md text-on-surface-variant">Generate final assessment documents and monitor student daily reports.</p>
+<h1 class="font-headline-lg text-headline-lg text-primary">Laporan &amp; Ekspor</h1>
+<p class="font-body-md text-on-surface-variant">Buat dokumen penilaian akhir dan pantau laporan harian mahasiswa.</p>
 </div>
 <div class="grid grid-cols-12 gap-xl">
 <!-- Filter Panel -->
 <section class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
 <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant ambient-shadow h-fit">
-<h2 class="font-headline-md text-headline-md text-primary mb-lg">Report Configuration</h2>
+<h2 class="font-headline-md text-headline-md text-primary mb-lg">Konfigurasi Laporan</h2>
 <form method="GET" action="{{ route('admin.daily_activities.index') }}" class="space-y-lg">
 <!-- Select Student -->
 <div>
-<label class="block font-label-md text-on-surface-variant mb-xs">Select Student / Cohort</label>
+<label class="block font-label-md text-on-surface-variant mb-xs">Pilih Mahasiswa / Kelompok</label>
 <select name="student_id" onchange="this.form.submit()" class="w-full border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-primary">
-<option value="all">All Students</option>
+<option value="all">Semua Mahasiswa</option>
 @foreach($studentsProgress ?? [] as $student)
 <option value="{{ $student->id }}" {{ request('student_id') == $student->id ? 'selected' : '' }}>{{ $student->name }}</option>
 @endforeach
@@ -25,29 +25,29 @@
 <!-- Date Range -->
 <div class="grid grid-cols-2 gap-md">
 <div>
-<label class="block font-label-md text-on-surface-variant mb-xs">Start Date</label>
+<label class="block font-label-md text-on-surface-variant mb-xs">Tanggal Mulai</label>
 <input name="start_date" value="{{ request('start_date') }}" onchange="this.form.submit()" class="w-full border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-primary" type="date">
 </div>
 <div>
-<label class="block font-label-md text-on-surface-variant mb-xs">End Date</label>
+<label class="block font-label-md text-on-surface-variant mb-xs">Tanggal Selesai</label>
 <input name="end_date" value="{{ request('end_date') }}" onchange="this.form.submit()" class="w-full border-outline-variant rounded-lg font-body-md focus:border-primary focus:ring-primary" type="date">
 </div>
 </div>
 <!-- Report Type -->
 <div>
-<label class="block font-label-md text-on-surface-variant mb-md">Report Type</label>
+<label class="block font-label-md text-on-surface-variant mb-md">Jenis Laporan</label>
 <div class="space-y-sm">
 <label class="flex items-center gap-md group cursor-pointer">
 <input name="report_type" value="attendance" onchange="this.form.submit()" {{ request('report_type') == 'attendance' ? 'checked' : '' }} class="rounded-full text-primary focus:ring-primary border-outline-variant" type="radio">
-<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Attendance Log</span>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Log Kehadiran</span>
 </label>
 <label class="flex items-center gap-md group cursor-pointer">
 <input name="report_type" value="daily_activities" onchange="this.form.submit()" {{ request('report_type', 'daily_activities') == 'daily_activities' ? 'checked' : '' }} class="rounded-full text-primary focus:ring-primary border-outline-variant" type="radio">
-<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Daily Activities Log</span>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Log Aktivitas Harian</span>
 </label>
 <label class="flex items-center gap-md group cursor-pointer">
 <input name="report_type" value="final_grade" onchange="this.form.submit()" {{ request('report_type') == 'final_grade' ? 'checked' : '' }} class="rounded-full text-primary focus:ring-primary border-outline-variant" type="radio">
-<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Final Grade Evaluation</span>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Evaluasi Nilai Akhir</span>
 </label>
 </div>
 </div>
@@ -55,7 +55,7 @@
 <div class="pt-sm">
 <a href="{{ route('admin.daily_activities.pdf', request()->query()) }}" target="_blank" class="w-full bg-primary text-on-primary font-label-lg font-bold py-3 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm transition-all flex items-center justify-center gap-2">
 <span class="material-symbols-outlined">picture_as_pdf</span>
-Generate Report (PDF)
+Buat Laporan (PDF)
 </a>
 </div>
 </form>
@@ -64,9 +64,9 @@ Generate Report (PDF)
 <div class="bg-primary-container p-lg rounded-xl text-on-primary-container">
 <div class="flex items-center gap-sm mb-sm">
 <span class="material-symbols-outlined">info</span>
-<h3 class="font-headline-md text-[18px]">Export Tip</h3>
+<h3 class="font-headline-md text-[18px]">Tips Ekspor</h3>
 </div>
-<p class="font-body-md opacity-90">Generate a 'Final Grade Evaluation' only after all tasks have been marked as complete by the mentor.</p>
+<p class="font-body-md opacity-90">Buat 'Evaluasi Nilai Akhir' hanya setelah semua tugas ditandai selesai oleh mentor.</p>
 </div>
 </section>
 <!-- Recent Reports Table -->
@@ -75,11 +75,11 @@ Generate Report (PDF)
 <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
 <h2 class="font-headline-md text-headline-md text-primary">
     @if($reportType === 'daily_activities')
-        Recent Daily Activities
+        Aktivitas Harian Terbaru
     @elseif($reportType === 'attendance')
-        Attendance Log
+        Log Kehadiran
     @elseif($reportType === 'final_grade')
-        Final Grade Evaluation
+        Evaluasi Nilai Akhir
     @endif
 </h2>
 </div>
@@ -88,11 +88,11 @@ Generate Report (PDF)
 @if($reportType === 'daily_activities')
 <thead class="bg-surface-container-low border-b border-outline-variant">
 <tr>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Student</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Date Submitted</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Activity Notes</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Type</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-right">Action</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Mahasiswa</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Tanggal Submit</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Catatan Aktivitas</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Tipe</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-right">Aksi</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant">
@@ -144,13 +144,13 @@ Generate Report (PDF)
 @elseif($reportType === 'attendance')
 <thead class="bg-surface-container-low border-b border-outline-variant">
 <tr>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Student Info</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Date</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Info Mahasiswa</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Tanggal</th>
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Status</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Check In</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Check Out</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Duration</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Notes</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Masuk</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Keluar</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Durasi</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Catatan</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant">
@@ -170,11 +170,11 @@ Generate Report (PDF)
 <td class="px-lg py-md font-body-md text-on-surface-variant">{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</td>
 <td class="px-lg py-md">
     @if($att->status === 'present')
-        <span class="px-sm py-xs bg-green-100 text-green-800 font-label-md rounded font-bold uppercase text-[10px]">Present</span>
+        <span class="px-sm py-xs bg-green-100 text-green-800 font-label-md rounded font-bold uppercase text-[10px]">Hadir</span>
     @elseif($att->status === 'absent')
-        <span class="px-sm py-xs bg-red-100 text-red-800 font-label-md rounded font-bold uppercase text-[10px]">Absent</span>
+        <span class="px-sm py-xs bg-red-100 text-red-800 font-label-md rounded font-bold uppercase text-[10px]">Tidak Hadir</span>
     @elseif($att->status === 'sick')
-        <span class="px-sm py-xs bg-yellow-100 text-yellow-800 font-label-md rounded font-bold uppercase text-[10px]">Sick</span>
+        <span class="px-sm py-xs bg-yellow-100 text-yellow-800 font-label-md rounded font-bold uppercase text-[10px]">Sakit</span>
     @else
         <span class="px-sm py-xs bg-blue-100 text-blue-800 font-label-md rounded font-bold uppercase text-[10px]">{{ $att->status }}</span>
     @endif
@@ -212,11 +212,11 @@ Generate Report (PDF)
 @elseif($reportType === 'final_grade')
 <thead class="bg-surface-container-low border-b border-outline-variant">
 <tr>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Student Name</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Attendance (30%)</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Tasks (50%)</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Activities (20%)</th>
-<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Final Score</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider">Nama Mahasiswa</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Kehadiran (30%)</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Tugas (50%)</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Aktivitas (20%)</th>
+<th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Nilai Akhir</th>
 <th class="px-lg py-md font-label-md text-outline uppercase tracking-wider text-center">Grade</th>
 </tr>
 </thead>
@@ -286,7 +286,7 @@ Generate Report (PDF)
 </div>
 <div>
 <p class="text-label-md text-outline">Laporan Hari Ini</p>
-<p class="text-headline-md font-bold text-on-surface">{{ $todayActivitiesCount ?? 0 }} Reports</p>
+<p class="text-headline-md font-bold text-on-surface">{{ $todayActivitiesCount ?? 0 }} Laporan</p>
 </div>
 </div>
 </div>
@@ -311,8 +311,8 @@ Generate Report (PDF)
                     <!-- Initials -->
                 </div>
                 <div>
-                    <h4 class="font-title-md font-bold text-on-surface text-[16px]" id="modalStudentName">Student Name</h4>
-                    <p class="text-label-md text-outline" id="modalStudentMajor">Major</p>
+                    <h4 class="font-title-md font-bold text-on-surface text-[16px]" id="modalStudentName">Nama Mahasiswa</h4>
+                    <p class="text-label-md text-outline" id="modalStudentMajor">Jurusan</p>
                 </div>
                 <div class="ml-auto text-right">
                     <span class="px-sm py-xs bg-primary-container text-primary font-label-sm rounded-full text-[11px] font-bold" id="modalActivityDate">
@@ -344,13 +344,13 @@ Generate Report (PDF)
                 </div>
             </div>
             <div id="modalNoAttachmentText" class="text-center py-sm text-outline font-body-md italic bg-surface-container-low rounded-xl border border-outline-variant border-dashed">
-                No files attached to this activity.
+                Tidak ada file yang dilampirkan.
             </div>
         </div>
         <!-- Footer -->
         <div class="px-lg py-md border-t border-outline-variant bg-surface-container-low flex justify-end">
             <button onclick="closeActivityModal()" class="px-lg py-2.5 border border-outline-variant text-on-surface hover:bg-surface-container-highest font-bold text-[14px] rounded-xl transition-all active:scale-95">
-                Close
+                Tutup
             </button>
         </div>
     </div>

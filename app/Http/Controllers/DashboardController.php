@@ -46,6 +46,17 @@ class DashboardController extends Controller
 
         $activeInterns = $activeInternsQuery->latest()->get();
 
+        $todayDate = today()->toDateString();
+        $lateStudents = Attendance::with('student')
+            ->whereDate('date', $todayDate)
+            ->where('is_late', true)
+            ->get();
+
+        $earlyCheckoutStudents = Attendance::with('student')
+            ->whereDate('date', $todayDate)
+            ->where('is_early_checkout', true)
+            ->get();
+
         return view('admin.dashboard.index', compact(
             'totalStudents', 
             'todayAttendances', 
@@ -53,7 +64,9 @@ class DashboardController extends Controller
             'totalActivities', 
             'recentActivities',
             'latestQr',
-            'activeInterns'
+            'activeInterns',
+            'lateStudents',
+            'earlyCheckoutStudents'
         ));
     }
 }

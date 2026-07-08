@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Student;
+use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -27,4 +30,57 @@ class AttendanceController extends Controller
             'attendances', 'totalRecords', 'lateCount', 'onTimeCount', 'onTimePercent', 'lastUpdate', 'latestQr', 'selectedDate'
         ));
     }
+
+    /**
+     * Tandai siswa yang belum hadir hari ini sebagai absent/leave secara manual.
+     * Berguna untuk admin tanpa harus menunggu scheduler otomatis.
+     */
+    public function markAbsent(Request $request)
+    {
+        $targetDate = $request->input('date', Carbon::today()->toDateString());
+        $targetCarbon = Carbon::parse($targetDate);
+
+        $students = Student::where('status', 'active')->get();
+
+        $markedAbsent = 0;
+        $markedLeave  = 0;
+
+        foreach ($students as $student) {
+            // Skip jika sudah ada record hari ini
+            $exists = Attendance::where('student_id', $student->id)
+                ->whereDate('date', $targetDate)
+                ->exists();
+
+            if ($exists) continue;
+
+            // Cek leave request approved yang mencakup tanggal ini
+            $approvedLeave = LeaveRequest::where('student_id', $student->id)
+                ->where('status', 'approved')
+                ->whereDate('start_date', '<=', $targetDate)
+                ->whereDate('end_date', '>=', $targetDate)
+                ->first();
+
+            if ($approvedLeave) {
+                Attendance::create([
+                    'student_id' => $student->id,
+                    'date'       => $targetDate,
+                    'status'     => 'leave',
+                ]);
+                $markedLeave++;
+            } else {
+                Attendance::create([
+                    'student_id' => $student->id,
+                    'date'       => $targetDate,
+                    'status'     => 'absent',
+                ]);
+                $markedAbsent++;
+            }
+        }
+
+        $total = $markedAbsent + $markedLeave;
+
+        return redirect()->route('admin.attendances.index', ['date' => $targetDate])
+            ->with('success', "Berhasil memproses {$total} mahasiswa: {$markedAbsent} ditandai Absen, {$markedLeave} ditandai Izin.");
+    }
 }
+

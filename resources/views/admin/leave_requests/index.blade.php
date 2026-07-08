@@ -5,21 +5,21 @@
     <!-- Modern Header Section -->
     <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-lg bg-white p-lg rounded-2xl border border-outline-variant/20 shadow-sm">
         <div>
-            <h1 class="text-3xl font-black text-primary tracking-tight">Leave Requests</h1>
-            <p class="text-sm text-on-surface-variant font-medium mt-1">Manage and verify intern leave requests</p>
+            <h1 class="text-3xl font-black text-primary tracking-tight">Pengajuan Izin</h1>
+            <p class="text-sm text-on-surface-variant font-medium mt-1">Kelola dan verifikasi pengajuan izin mahasiswa magang</p>
         </div>
         
         <div class="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-4 w-full lg:w-auto">
             <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
-                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Pending</span>
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Menunggu</span>
                 <span class="block text-lg sm:text-xl font-black text-secondary">{{ $pendingCount ?? 0 }}</span>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
-                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Resolved</span>
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Selesai Diproses</span>
                 <span class="block text-lg sm:text-xl font-black text-primary">{{ ($totalRequests ?? 0) - ($pendingCount ?? 0) }}</span>
             </div>
             <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl px-3 py-2 sm:px-4 text-center">
-                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Success</span>
+                <span class="block text-[10px] sm:text-xs font-bold text-on-surface-variant uppercase tracking-widest">Persetujuan</span>
                 <span class="block text-lg sm:text-xl font-black text-primary">{{ $successRate ?? 0 }}%</span>
             </div>
         </div>
@@ -31,13 +31,13 @@
             <table class="w-full text-left border-collapse min-w-[850px]">
                 <thead>
                     <tr class="bg-surface-container-low/30 border-b border-outline-variant/10">
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Student</th>
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Type</th>
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Date Range</th>
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Description</th>
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Attachment</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Mahasiswa</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Jenis</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Rentang Tanggal</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Keterangan</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Lampiran</th>
                         <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline">Status</th>
-                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline text-right">Action</th>
+                        <th class="px-xl py-4 text-[11px] font-bold uppercase tracking-widest text-outline text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/10">
@@ -61,22 +61,22 @@
                             @if(($req->type ?? 'other') === 'sick')
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                                    Sick Leave
+                                    Sakit
                                 </span>
                             @elseif(($req->type ?? 'other') === 'personal')
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                                    Personal
+                                    Keperluan Pribadi
                                 </span>
                             @elseif(($req->type ?? 'other') === 'academic')
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 text-xs font-semibold border border-sky-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-                                    Academic
+                                    Akademik
                                 </span>
                             @else
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
-                                    {{ ucfirst($req->type ?? 'Other') }}
+                                    {{ ucfirst($req->type ?? 'Lainnya') }}
                                 </span>
                             @endif
                         </td>
@@ -85,7 +85,7 @@
                         <td class="px-xl py-4 text-sm font-semibold text-on-surface-variant">
                             <div class="flex flex-col">
                                 <span>{{ \Carbon\Carbon::parse($req->start_date)->format('d M Y') }}</span>
-                                <span class="text-xs text-outline font-normal">to {{ \Carbon\Carbon::parse($req->end_date)->format('d M Y') }}</span>
+                                <span class="text-xs text-outline font-normal">s/d {{ \Carbon\Carbon::parse($req->end_date)->format('d M Y') }}</span>
                             </div>
                         </td>
                         
@@ -99,21 +99,21 @@
                             @if($req->attachment_path)
                                 <a href="{{ route('admin.view_leave_file', basename($req->attachment_path)) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary hover:text-white border border-primary/20 hover:border-primary rounded-lg text-xs font-bold transition-all active:scale-95 shadow-sm" title="View uploaded document">
                                     <span class="material-symbols-outlined text-[16px]">visibility</span>
-                                    <span>View File</span>
+                                    <span>Lihat File</span>
                                 </a>
                             @else
-                                <span class="text-xs text-outline font-medium">No Attachment</span>
+                                <span class="text-xs text-outline font-medium">Tidak Ada Lampiran</span>
                             @endif
                         </td>
                         
                         <!-- Status -->
                         <td class="px-xl py-4">
                             @if($req->status === 'pending')
-                                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">Pending</span>
+                                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">Menunggu</span>
                             @elseif($req->status === 'approved')
-                                <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold uppercase tracking-wider">Approved</span>
+                                <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold uppercase tracking-wider">Disetujui</span>
                             @else
-                                <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold uppercase tracking-wider">Rejected</span>
+                                <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold uppercase tracking-wider">Ditolak</span>
                             @endif
                         </td>
                         
@@ -128,7 +128,7 @@
                                         <input type="hidden" name="status" value="approved">
                                         <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 hover:bg-green-600 hover:text-white border border-green-200 hover:border-green-600 rounded-lg text-xs font-semibold transition-all active:scale-95" title="Approve Request">
                                             <span class="material-symbols-outlined text-[16px]">check</span>
-                                            <span>Approve</span>
+                                            <span>Setujui</span>
                                         </button>
                                     </form>
 
@@ -139,7 +139,7 @@
                                         <input type="hidden" name="status" value="rejected">
                                         <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-red-600 hover:text-white border border-rose-200 hover:border-red-600 rounded-lg text-xs font-semibold transition-all active:scale-95" title="Reject Request">
                                             <span class="material-symbols-outlined text-[16px]">close</span>
-                                            <span>Reject</span>
+                                            <span>Tolak</span>
                                         </button>
                                     </form>
                                 @elseif($req->status === 'approved')
@@ -161,7 +161,7 @@
                         <td colspan="7" class="px-xl py-8 text-center text-on-surface-variant">
                             <div class="flex flex-col items-center justify-center">
                                 <span class="material-symbols-outlined text-4xl text-outline mb-2">inbox</span>
-                                <p class="text-sm font-medium">No leave requests found.</p>
+                                <p class="text-sm font-medium">Belum ada pengajuan izin.</p>
                             </div>
                         </td>
                     </tr>
@@ -183,9 +183,9 @@
             <div id="modalIconContainer" class="w-10 h-10 rounded-full flex items-center justify-center">
                 <span id="modalIcon" class="material-symbols-outlined">help</span>
             </div>
-            <h3 id="modalTitle" class="text-lg font-bold text-on-surface">Confirmation</h3>
+            <h3 id="modalTitle" class="text-lg font-bold text-on-surface">Konfirmasi</h3>
         </div>
-        <p id="modalMessage" class="text-sm text-on-surface-variant font-medium mb-6">Are you sure you want to proceed?</p>
+        <p id="modalMessage" class="text-sm text-on-surface-variant font-medium mb-6">Apakah Anda yakin ingin melanjutkan?</p>
         <div class="flex items-center justify-end gap-3">
             <button type="button" onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl border border-outline-variant/30 text-sm font-semibold text-on-surface-variant hover:bg-surface-container transition-all active:scale-95">
                 Batal

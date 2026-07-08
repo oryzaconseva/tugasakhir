@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>@yield('title', 'Millennia - Mentor Dashboard')</title>
+    <title>@yield('title', 'Millennia - Portal Mentor')</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
@@ -157,7 +157,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="font-bold text-primary tracking-tight text-headline-md leading-none">Millennia</span>
-                    <p class="font-label-md text-[10px] text-on-surface-variant tracking-widest uppercase mt-1">MENTOR PORTAL</p>
+                    <p class="font-label-md text-[10px] text-on-surface-variant tracking-widest uppercase mt-1">PORTAL MENTOR</p>
                 </div>
             </div>
             <!-- Close Button for Mobile -->
@@ -170,31 +170,33 @@
         <nav class="flex-1 space-y-6 overflow-y-auto custom-scrollbar pr-1">
             <!-- Group 1: Overview -->
             <div class="space-y-1.5">
-                <p class="px-md text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest leading-none mb-2">Overview</p>
+                <p class="px-md text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest leading-none mb-2">Ikhtisar</p>
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.dashboard' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
-                    <span class="font-label-md text-[14px]">Dashboard</span>
+                    <span class="font-label-md text-[14px]">Beranda</span>
                 </a>
             </div>
 
             <!-- Group 2: Internship Management -->
             <div class="space-y-1.5">
-                <p class="px-md text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest leading-none mb-2">Internship</p>
+                <p class="px-md text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest leading-none mb-2">Magang</p>
+                @if(auth()->user()->role === 'administrator')
                 <a href="{{ route('admin.students.index') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.students.index' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
-                    <span class="font-label-md text-[14px]">Students</span>
+                    <span class="font-label-md text-[14px]">Data Mahasiswa</span>
                 </a>
+                @endif
                 <a href="{{ route('admin.attendances.index') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.attendances.index' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="event_available">event_available</span>
-                    <span class="font-label-md text-[14px]">Attendance</span>
+                    <span class="font-label-md text-[14px]">Absensi</span>
                 </a>
                 <a href="{{ route('admin.leave_requests.index') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.leave_requests.index' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="event_note">event_note</span>
-                    <span class="font-label-md text-[14px]">Leave Request</span>
+                    <span class="font-label-md text-[14px]">Pengajuan Izin</span>
                 </a>
             </div>
 
@@ -204,12 +206,12 @@
                 <a href="{{ route('admin.tasks.index') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.tasks.index' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="task">task</span>
-                    <span class="font-label-md text-[14px]">Tasks</span>
+                    <span class="font-label-md text-[14px]">Tugas</span>
                 </a>
                 <a href="{{ route('admin.daily_activities.index') }}"
                     class="flex items-center gap-md px-md py-3 rounded-xl transition-all cursor-pointer active:scale-95 {{ $currentRoute === 'admin.daily_activities.index' ? 'bg-primary text-on-primary font-semibold shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-highest font-medium' }}">
                     <span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
-                    <span class="font-label-md text-[14px]">Reports</span>
+                    <span class="font-label-md text-[14px]">Laporan</span>
                 </a>
             </div>
         </nav>
@@ -221,14 +223,14 @@
                 <div
                     class="flex items-center gap-md text-on-surface-variant px-md py-2.5 hover:bg-surface-container-highest rounded-lg transition-colors cursor-pointer active:scale-95">
                     <span class="material-symbols-outlined" data-icon="help">help</span>
-                    <span class="font-label-md text-[14px]">Help Center</span>
+                    <span class="font-label-md text-[14px]">Pusat Bantuan</span>
                 </div>
                 <form action="{{ route('admin.logout') ?? '#' }}" method="POST" class="w-full m-0 p-0">
                     @csrf
                     <button type="submit"
                         class="w-full flex items-center gap-md text-on-surface-variant px-md py-2.5 hover:bg-surface-container-highest rounded-lg transition-colors cursor-pointer active:scale-95 text-left">
                         <span class="material-symbols-outlined" data-icon="logout">logout</span>
-                        <span class="font-label-md text-[14px]">Sign Out</span>
+                        <span class="font-label-md text-[14px]">Keluar</span>
                     </button>
                 </form>
             </div>
@@ -243,7 +245,7 @@
                     data-icon="search">search</span>
                 <input
                     class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-md text-sm focus:ring-2 focus:ring-primary"
-                    placeholder="Search interns or records..." type="text">
+                    placeholder="Cari mahasiswa atau data..." type="text">
             </div>
             <button id="menu-toggle-btn" class="md:hidden p-2 -ml-2 text-primary hover:bg-surface-container-high rounded-full transition-all flex items-center justify-center">
                 <span class="material-symbols-outlined text-[24px]">menu</span>
@@ -253,10 +255,12 @@
             <button
                 class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative"><span
                     class="material-symbols-outlined">notifications</span></button>
+            @if(auth()->user()->role === 'administrator')
             <a href="{{ route('admin.settings.index') }}"
                 class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all flex items-center justify-center" title="Pengaturan">
                 <span class="material-symbols-outlined">settings</span>
             </a>
+            @endif
             <div class="h-8 w-px bg-outline-variant mx-sm hidden sm:block"></div>
             <div
                 class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-1 pr-4 rounded-full transition-all border border-outline-variant/20">

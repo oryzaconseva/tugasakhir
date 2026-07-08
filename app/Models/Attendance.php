@@ -13,8 +13,14 @@ class Attendance extends Model
         'student_id',
         'date',
         'check_in_time',
+        'check_in_latitude',
+        'check_in_longitude',
         'check_out_time',
-        'status'
+        'check_out_latitude',
+        'check_out_longitude',
+        'status',
+        'is_late',
+        'is_early_checkout'
     ];
 
     public function student()

@@ -6,9 +6,10 @@
 <!-- Page Header -->
 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-md mb-lg">
 <div>
-<h2 class="font-headline-lg text-headline-lg md:text-[32px] md:leading-[40px] font-bold text-primary">Student Directory</h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Manage and oversee all active interns in the program.</p>
+<h2 class="font-headline-lg text-headline-lg md:text-[32px] md:leading-[40px] font-bold text-primary">Data Mahasiswa</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Kelola dan pantau semua mahasiswa magang yang aktif dalam program.</p>
 </div>
+@if(auth()->user()->role === 'administrator')
 <form action="{{ route('admin.students.import') }}" method="POST" enctype="multipart/form-data" class="m-0 p-0">
     @csrf
     <input type="file" name="csv_file" accept=".csv" class="hidden" id="csv_upload" onchange="this.form.submit()">
@@ -16,8 +17,9 @@
 </form>
 <button onclick="openAddModal()" class="bg-primary text-on-primary font-label-md text-label-md rounded-lg py-2 px-4 flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm whitespace-nowrap active:scale-95">
 <span class="material-symbols-outlined text-[18px]">add</span>
-                    Add New Student
+                    Tambah Mahasiswa
 </button>
+@endif
 </div>
 @if(session('success'))
 <div class="bg-primary/10 border border-primary text-primary px-4 py-3 rounded-lg relative mb-md font-body-md" role="alert">
@@ -38,24 +40,24 @@
 <form method="GET" action="{{ route('admin.students.index') }}" class="bg-surface-container-lowest rounded-xl p-md mb-md shadow-sm border border-outline-variant/30 flex flex-col sm:flex-row gap-md items-center justify-between">
 <div class="relative w-full sm:w-72">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
-<input name="search" value="{{ request('search') }}" class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all" placeholder="Search by name, email..." type="text"/>
+<input name="search" value="{{ request('search') }}" class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all" placeholder="Cari nama, email..." type="text"/>
 </div>
 <div class="flex items-center gap-sm w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
 <select name="cohort" onchange="this.form.submit()" class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg py-2 pl-3 pr-8 font-label-md text-label-md text-on-surface-variant focus:outline-none focus:border-primary cursor-pointer appearance-none">
-<option value="all">All Cohorts</option>
+<option value="all">Semua Jurusan</option>
 @foreach($cohorts as $cohort)
 <option value="{{ $cohort }}" {{ request('cohort') == $cohort ? 'selected' : '' }}>{{ $cohort }}</option>
 @endforeach
 </select>
 <select name="status" onchange="this.form.submit()" class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg py-2 pl-3 pr-8 font-label-md text-label-md text-on-surface-variant focus:outline-none focus:border-primary cursor-pointer appearance-none">
-<option value="all">All Statuses</option>
-<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-<option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+<option value="all">Semua Status</option>
+<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
+<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Tidak Aktif</option>
+<option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Selesai</option>
 </select>
 <button type="submit" class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md px-3 py-2 hover:bg-surface-container-low rounded-lg transition-colors border border-transparent">
 <span class="material-symbols-outlined text-[18px]">search</span>
-                        Search
+                        Cari
                     </button>
 </div>
 </form>
@@ -64,7 +66,15 @@
 <div class="overflow-x-auto flex-1">
 <table class="w-full text-left border-collapse min-w-[800px]">
 <thead>
-<tr class="border-b border-surface-variant bg-surface-container-low/50"><th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Student Name</th><th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Email</th><th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Cohort/Divisi</th><th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Join Date</th><th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold text-right">Actions</th></tr>
+<tr class="border-b border-surface-variant bg-surface-container-low/50">
+    <th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Nama Mahasiswa</th>
+    <th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Email</th>
+    <th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Jurusan/Divisi</th>
+    <th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold">Tanggal Bergabung</th>
+    @if(auth()->user()->role === 'administrator')
+    <th class="py-3 px-md font-label-md text-label-md text-on-surface-variant font-semibold text-right">Aksi</th>
+    @endif
+</tr>
 </thead>
 <tbody class="divide-y divide-surface-variant">
 @forelse($students as $student)
@@ -80,6 +90,7 @@
     <td class="py-3 px-md font-body-md text-body-md text-on-surface-variant">{{ $student->email ?? 'N/A' }}</td>
     <td class="py-3 px-md font-body-md text-body-md text-on-surface-variant">{{ $student->major ?? 'N/A' }}</td>
     <td class="py-3 px-md font-body-md text-body-md text-on-surface-variant">{{ $student->created_at ? $student->created_at->format('M d, Y') : 'N/A' }}</td>
+    @if(auth()->user()->role === 'administrator')
     <td class="py-3 px-md text-right">
         <div class="flex justify-end items-center gap-2">
             <button type="button" 
@@ -107,10 +118,11 @@
             </form>
         </div>
     </td>
+    @endif
 </tr>
 @empty
 <tr>
-    <td colspan="5" class="py-3 px-md text-center text-on-surface-variant">Belum ada data mahasiswa.</td>
+    <td colspan="{{ auth()->user()->role === 'administrator' ? 5 : 4 }}" class="py-3 px-md text-center text-on-surface-variant">Belum ada data mahasiswa.</td>
 </tr>
 @endforelse
 </tbody>
@@ -118,7 +130,7 @@
 </div>
 <!-- Pagination -->
 <div class="border-t border-surface-variant bg-surface-container-lowest p-md flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface-variant">Showing {{ $students->count() }} students</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Menampilkan {{ $students->count() }} mahasiswa</span>
 <div class="flex items-center gap-sm">
     @if(method_exists($students, 'links'))
         {{ $students->links('pagination::tailwind') }}
@@ -144,7 +156,7 @@
         <div class="px-lg py-md bg-slate-50 border-b border-outline-variant flex justify-between items-center">
             <h3 class="font-headline-md text-[18px] font-bold text-primary flex items-center gap-2">
                 <span class="material-symbols-outlined text-[22px] text-primary">person_add</span>
-                <span>Add New Student</span>
+                <span>Tambah Mahasiswa Baru</span>
             </h3>
             <button onclick="closeAddModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 flex items-center justify-center text-outline transition-colors">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -202,7 +214,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
                 <!-- Email -->
                 <div class="space-y-1">
-                    <label for="add_email" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Email Address</label>
+                    <label for="add_email" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Alamat Email</label>
                     <input type="email" name="email" id="add_email" class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="student@university.ac.id">
                 </div>
                 
@@ -292,7 +304,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
                 <!-- Email -->
                 <div class="space-y-1">
-                    <label for="edit_email" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Email Address</label>
+                    <label for="edit_email" class="block font-label-md text-xs font-bold text-slate-700 uppercase tracking-wider">Alamat Email</label>
                     <input type="email" name="email" id="edit_email" class="w-full bg-background border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
                 </div>
                 
@@ -306,7 +318,7 @@
             <!-- Footer Actions -->
             <div class="pt-sm border-t border-outline-variant flex justify-end gap-sm">
                 <button type="button" onclick="closeEditModal()" class="px-md py-2 text-slate-700 hover:bg-slate-100 rounded-lg text-sm font-semibold transition-all">Batal</button>
-                <button type="submit" class="px-md py-2 bg-primary text-white hover:bg-primary-container rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95">Update Profile</button>
+                <button type="submit" class="px-md py-2 bg-primary text-white hover:bg-primary-container rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95">Perbarui Profil</button>
             </div>
         </form>
     </div>
