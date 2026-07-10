@@ -176,6 +176,48 @@
     </div>
 </div>
 
+<!-- ====== SUCCESS / RESULT POPUP MODAL ====== -->
+@if(session('success'))
+<div id="resultModal" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+    <div id="resultModalCard" class="bg-white rounded-2xl p-8 shadow-2xl border border-outline-variant/30 max-w-sm w-full mx-4 transform scale-95 transition-all duration-300 text-center">
+        
+        @php
+            $msg = session('success');
+            $isApproved = str_contains(strtolower($msg), 'disetujui') || str_contains(strtolower($msg), 'approved');
+        @endphp
+
+        {{-- Icon --}}
+        <div class="flex justify-center mb-5">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center
+                {{ $isApproved ? 'bg-green-50' : 'bg-red-50' }}">
+                <span class="material-symbols-outlined text-5xl {{ $isApproved ? 'text-green-500' : 'text-red-500' }}">
+                    {{ $isApproved ? 'check_circle' : 'cancel' }}
+                </span>
+            </div>
+        </div>
+
+        {{-- Title --}}
+        <h3 class="text-xl font-black text-on-surface mb-2">
+            {{ $isApproved ? 'Permohonan Disetujui!' : 'Permohonan Ditolak' }}
+        </h3>
+
+        {{-- Message --}}
+        <p class="text-sm text-on-surface-variant font-medium mb-6 leading-relaxed">
+            {{ $isApproved
+                ? 'Pengajuan izin mahasiswa telah berhasil disetujui. Notifikasi otomatis telah dikirim ke aplikasi mahasiswa.'
+                : 'Pengajuan izin mahasiswa telah ditolak. Notifikasi otomatis telah dikirim ke aplikasi mahasiswa.' }}
+        </p>
+
+        {{-- Close Button --}}
+        <button onclick="closeResultModal()" 
+            class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all active:scale-95
+                {{ $isApproved ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700' }}">
+            Tutup
+        </button>
+    </div>
+</div>
+@endif
+
 <!-- Custom Confirmation Modal -->
 <div id="confirmModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 backdrop-blur-[2px] transition-all duration-300">
     <div class="bg-white rounded-2xl p-6 shadow-xl border border-outline-variant/30 max-w-sm w-full mx-4 transform scale-95 transition-all duration-300" id="modalCard">
@@ -251,5 +293,29 @@
             pendingFormToSubmit.submit();
         }
     });
+
+    // Result modal: animasi entrance
+    document.addEventListener('DOMContentLoaded', () => {
+        const resultModal = document.getElementById('resultModal');
+        if (resultModal) {
+            const card = document.getElementById('resultModalCard');
+            setTimeout(() => {
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }, 50);
+        }
+    });
+
+    function closeResultModal() {
+        const resultModal = document.getElementById('resultModal');
+        if (!resultModal) return;
+        const card = document.getElementById('resultModalCard');
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+        setTimeout(() => {
+            resultModal.style.opacity = '0';
+            setTimeout(() => resultModal.remove(), 200);
+        }, 150);
+    }
 </script>
 @endsection

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="light" lang="id">
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Millennia Internship Portal | Sign In</title>
+    <title>Millennia Internship Portal | Masuk</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <!-- Material Symbols -->
@@ -135,13 +135,13 @@
                     <span class="inline-block px-md py-xs bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-full uppercase tracking-widest mb-md">
                         Millennia Internship
                     </span>
-                    <h1 class="font-display-lg text-[48px] leading-[1.1] text-white max-w-lg mb-md">Developing the Future IT Experts</h1>
-                    <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-md opacity-90">The official management portal for Millennia Solusi Informatika mentors and administrators.</p>
+                    <h1 class="font-display-lg text-[48px] leading-[1.1] text-white max-w-lg mb-md">Membentuk Ahli IT Masa Depan</h1>
+                    <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-md opacity-90">Portal manajemen resmi untuk admin dan administrator Millennia Solusi Informatika.</p>
                 </div>
             </div>
             <!-- Footer for Left Side (Branding/Copyright) -->
             <div class="absolute bottom-xl left-xl z-20 text-white/50 font-label-md text-label-md">
-                © 2024 Millennia Solusi Informatika. All rights reserved.
+                © 2024 Millennia Solusi Informatika. Semua hak dilindungi.
             </div>
         </section>
         <!-- Right Side: Login Form -->
@@ -156,8 +156,8 @@
                     <div class="flex flex-col items-center mb-10">
                         <img alt="Millennia Logo" class="h-14 w-auto mb-md object-contain" src="{{ asset('images/logo.png') }}">
                         <div class="text-center">
-                            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">Welcome to Millennia</h2>
-                            <p class="font-body-md text-body-md text-on-surface-variant">Please sign in to access the Internship Portal.</p>
+                            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">Selamat Datang di Millennia</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Silakan masuk untuk mengakses Portal Magang.</p>
                         </div>
                     </div>
 
@@ -166,8 +166,8 @@
                         <div class="mb-6 flex items-start gap-3 p-4 bg-error/10 text-error rounded-xl border border-error/20 backdrop-blur-md">
                             <span class="material-symbols-outlined text-error mt-0.5">error</span>
                             <div class="flex flex-col">
-                                <span class="text-xs font-semibold uppercase tracking-wider">Access Denied</span>
-                                <span class="text-sm opacity-90">{{ $errors->first('email') ?: 'Invalid email or password.' }}</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider">Akses Ditolak</span>
+                                <span class="text-sm opacity-90">{{ $errors->first('email') ?: 'Email atau kata sandi tidak valid.' }}</span>
                             </div>
                         </div>
                     @endif
@@ -176,13 +176,13 @@
                     <form action="{{ route('admin.login.post') }}" class="space-y-lg" method="POST">
                         @csrf
                         <div>
-                            <label class="block font-label-md text-label-md text-on-surface-variant mb-sm" for="email">Email Address</label>
-                            <input class="w-full px-md py-lg rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/10 font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" id="email" name="email" placeholder="name@company.com" required="" type="email" value="{{ old('email') }}">
+                            <label class="block font-label-md text-label-md text-on-surface-variant mb-sm" for="email">Alamat Email</label>
+                            <input class="w-full px-md py-lg rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/10 font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" id="email" name="email" placeholder="nama@perusahaan.com" required="" type="email" value="{{ old('email') }}">
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-sm">
-                                <label class="block font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
-                                <a class="font-label-md text-label-md text-secondary hover:text-secondary-container transition-colors font-medium" href="#">Forgot Password?</a>
+                                <label class="block font-label-md text-label-md text-on-surface-variant" for="password">Kata Sandi</label>
+                                <a class="font-label-md text-label-md text-secondary hover:text-secondary-container transition-colors font-medium" href="#">Lupa Kata Sandi?</a>
                             </div>
                             <div class="relative">
                                 <input class="w-full px-md py-lg rounded-lg border border-outline-variant bg-surface-bright focus:border-primary focus:ring-2 focus:ring-primary/10 font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" id="password" name="password" placeholder="••••••••" required="" type="password">
@@ -190,23 +190,19 @@
                         </div>
                         <div class="flex items-center space-x-sm mb-md">
                             <input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" id="remember" type="checkbox" name="remember">
-                            <label class="font-label-md text-label-md text-on-surface-variant cursor-pointer" for="remember">Keep me signed in</label>
+                            <label class="font-label-md text-label-md text-on-surface-variant cursor-pointer" for="remember">Ingat saya</label>
                         </div>
                         <button class="w-full bg-primary-container text-on-secondary-container py-lg px-xl rounded-lg font-headline-md text-headline-md hover:bg-primary transition-all duration-200 flex justify-center items-center group active:scale-[0.98]" type="submit">
-                            <span class="">Sign In</span>
+                            <span class="">Masuk</span>
                             <span class="material-symbols-outlined ml-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
                         </button>
                     </form>
-                    <!-- Footer Link inside card (Mobile focused) -->
-                    <div class="mt-lg pt-lg border-t border-outline-variant/30 text-center">
-                        <p class="font-body-md text-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-semibold hover:underline" href="#">Register Account</a></p>
-                    </div>
                 </div>
                 <!-- Global Footer Links -->
                 <nav class="mt-xl flex flex-wrap justify-center gap-lg font-label-md text-label-md text-outline">
-                    <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-                    <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
-                    <a class="hover:text-primary transition-colors" href="#">Help Center</a>
+                    <a class="hover:text-primary transition-colors" href="#">Kebijakan Privasi</a>
+                    <a class="hover:text-primary transition-colors" href="#">Syarat Layanan</a>
+                    <a class="hover:text-primary transition-colors" href="#">Pusat Bantuan</a>
                 </nav>
             </div>
         </section>
@@ -222,6 +218,30 @@
                 input.addEventListener('blur', () => {
                     input.parentElement.classList.remove('scale-[1.01]');
                 });
+            });
+            // Pesan validasi HTML5 dalam bahasa Indonesia
+            const validationMessages = {
+                email: {
+                    valueMissing: 'Alamat email wajib diisi.',
+                    typeMismatch: 'Masukkan alamat email yang valid.',
+                },
+                password: {
+                    valueMissing: 'Kata sandi wajib diisi.',
+                },
+            };
+
+            document.querySelectorAll('input[required]').forEach(input => {
+                input.addEventListener('invalid', () => {
+                    const messages = validationMessages[input.name] || {};
+                    if (input.validity.valueMissing) {
+                        input.setCustomValidity(messages.valueMissing || 'Field ini wajib diisi.');
+                    } else if (input.validity.typeMismatch) {
+                        input.setCustomValidity(messages.typeMismatch || 'Format tidak valid.');
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                });
+                input.addEventListener('input', () => input.setCustomValidity(''));
             });
         });
     </script>

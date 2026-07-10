@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="light" lang="id">
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>MSI Internship Portal - Sign In</title>
+    <title>MSI Internship Portal - Masuk</title>
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
@@ -207,14 +207,15 @@
                     </span>
                     <h1
                         class="font-display-lg text-[48px] leading-[1.1] text-white max-w-lg mb-md font-bold tracking-tight">
-                        Developing the<br>Future IT Experts</h1>
-                    <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-md opacity-90 leading-relaxed">The
-                        official internship portal for Millennia Solusi Informatika students and interns.</p>
+                        Membentuk<br>Ahli IT Masa Depan</h1>
+                    <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-md opacity-90 leading-relaxed">
+                        Portal
+                        magang resmi untuk admin Millennia Solusi Informatika.</p>
                 </div>
             </div>
             <!-- Footer for Left Side (Branding/Copyright) -->
             <div class="absolute bottom-xl left-xl z-20 text-white/50 font-label-md text-label-md">
-                © 2024 Millennia Solusi Informatika. All rights reserved.
+                © 2024 Millennia Solusi Informatika. Semua hak dilindungi.
             </div>
         </section>
         <!-- Right Side: Login Form -->
@@ -226,8 +227,7 @@
 
             <!-- Mobile Logo Only -->
             <div class="md:hidden absolute top-lg left-margin-mobile z-10">
-                <img alt="Millennia Logo" class="h-10 w-auto object-contain"
-                    src="{{ asset('images/logo.png') }}">
+                <img alt="Millennia Logo" class="h-10 w-auto object-contain" src="{{ asset('images/logo.png') }}">
             </div>
 
             <div class="w-full max-w-[440px] z-10 animate-fade-in-up">
@@ -243,8 +243,9 @@
                         <div class="text-center">
                             <h2
                                 class="font-headline-lg text-headline-lg text-on-background mb-1 font-semibold tracking-tight">
-                                Welcome to Millennia</h2>
-                            <p class="font-body-md text-body-md text-on-surface-variant/80">Please sign in to access the Internship Portal.</p>
+                                Selamat Datang di Millennia</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant/80">Silakan masuk untuk
+                                mengakses Portal Magang.</p>
                         </div>
                     </div>
 
@@ -254,9 +255,9 @@
                             class="mb-6 flex items-start gap-3 p-4 bg-error/10 text-error rounded-xl border border-error/20 backdrop-blur-md animate-fade-in-up">
                             <span class="material-symbols-outlined text-error mt-0.5">error</span>
                             <div class="flex flex-col text-left">
-                                <span class="text-xs font-semibold uppercase tracking-wider">Access Denied</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider">Akses Ditolak</span>
                                 <span
-                                    class="text-sm opacity-90">{{ $errors->first('email') ?: 'Invalid email or password.' }}</span>
+                                    class="text-sm opacity-90">{{ $errors->first('email') ?: 'Email atau kata sandi tidak valid.' }}</span>
                             </div>
                         </div>
                     @endif
@@ -267,13 +268,14 @@
                         <!-- Email Address -->
                         <div class="space-y-2">
                             <label class="block font-label-md text-label-md text-on-surface-variant font-medium"
-                                for="email">Email Address</label>
+                                for="email">Alamat Email</label>
                             <div class="relative group input-glow rounded-xl transition-all duration-300">
                                 <span
                                     class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline/70 group-focus-within:text-primary transition-colors text-[20px]">mail</span>
                                 <input
                                     class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-outline-variant bg-white/70 backdrop-blur-sm focus:border-primary focus:ring-0 font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant/60 shadow-sm"
-                                    id="email" name="email" placeholder="intern@millennia-solusi.id" required="" type="email" value="{{ old('email') }}">
+                                    id="email" name="email" placeholder="intern@millennia-solusi.id" required=""
+                                    type="email" value="{{ old('email') }}">
                             </div>
                         </div>
 
@@ -281,9 +283,9 @@
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
                                 <label class="block font-label-md text-label-md text-on-surface-variant font-medium"
-                                    for="password">Password</label>
+                                    for="password">Kata Sandi</label>
                                 <a class="font-label-md text-label-md text-secondary hover:text-secondary-container transition-colors font-semibold"
-                                    href="#">Forgot Password?</a>
+                                    href="#">Lupa Kata Sandi?</a>
                             </div>
                             <div class="relative group input-glow rounded-xl transition-all duration-300">
                                 <span
@@ -306,26 +308,21 @@
                                 id="remember" type="checkbox" name="remember">
                             <label
                                 class="font-label-md text-label-md text-on-surface-variant/80 cursor-pointer font-medium select-none"
-                                for="remember">Remember this device</label>
+                                for="remember">Ingat perangkat ini</label>
                         </div>
 
                         <!-- Submit Button -->
                         <button
                             class="w-full bg-gradient-to-r from-primary-container to-primary text-white py-3.5 px-6 rounded-xl font-headline-md text-headline-md hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 flex justify-center items-center group cursor-pointer"
                             type="submit">
-                            <span>Sign In</span>
+                            <span>Masuk</span>
                             <span
                                 class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform text-[20px]"
                                 data-icon="arrow_forward">arrow_forward</span>
                         </button>
                     </form>
 
-                    <!-- Contact Mentor inside card -->
-                    <div class="mt-8 pt-6 border-t border-outline-variant/20 text-center">
-                        <p class="font-body-md text-body-md text-on-surface-variant/80">
-                            Don't have an account? <a class="text-secondary font-semibold hover:underline" href="#">Contact your mentor</a>
-                        </p>
-                    </div>
+
                 </div>
 
                 <!-- Global Footer Links -->
@@ -333,7 +330,7 @@
                     class="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 font-label-md text-label-md text-outline/80">
                     <a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
                         <span class="material-symbols-outlined text-[14px]">help</span>
-                        Help Center
+                        Pusat Bantuan
                     </a>
                 </nav>
             </div>
@@ -367,6 +364,30 @@
                         container.classList.remove('scale-[1.015]');
                     });
                 }
+            });
+            // Pesan validasi HTML5 dalam bahasa Indonesia
+            const validationMessages = {
+                email: {
+                    valueMissing: 'Alamat email wajib diisi.',
+                    typeMismatch: 'Masukkan alamat email yang valid.',
+                },
+                password: {
+                    valueMissing: 'Kata sandi wajib diisi.',
+                },
+            };
+
+            document.querySelectorAll('input[required]').forEach(input => {
+                input.addEventListener('invalid', (e) => {
+                    const messages = validationMessages[input.name] || {};
+                    if (input.validity.valueMissing) {
+                        input.setCustomValidity(messages.valueMissing || 'Field ini wajib diisi.');
+                    } else if (input.validity.typeMismatch) {
+                        input.setCustomValidity(messages.typeMismatch || 'Format tidak valid.');
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                });
+                input.addEventListener('input', () => input.setCustomValidity(''));
             });
         });
     </script>

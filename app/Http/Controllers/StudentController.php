@@ -47,46 +47,6 @@ class StudentController extends Controller
         return view('admin.students.index', compact('students', 'totalStudents', 'activeStudents', 'pendingVerifications', 'cohorts', 'editStudent'));
     }
 
-    public function import(Request $request)
-    {
-        $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
-        ]);
-
-        $file = $request->file('csv_file');
-        $path = $file->getRealPath();
-        $data = array_map('str_getcsv', file($path));
-
-        $header = array_shift($data);
-        $header = array_map('trim', $header);
-        $header = array_map('strtolower', $header);
-
-        $count = 0;
-        foreach ($data as $row) {
-            if (count($row) === count($header)) {
-                $studentData = array_combine($header, array_map('trim', $row));
-                
-                if (isset($studentData['nim']) && $studentData['nim'] !== '') {
-                    \App\Models\Student::updateOrCreate(
-                        ['nim' => $studentData['nim']],
-                        [
-                            'name' => $studentData['name'] ?? 'Unknown',
-                            'university' => $studentData['university'] ?? '-',
-                            'major' => $studentData['major'] ?? null,
-                            'email' => $studentData['email'] ?? null,
-                            'phone' => $studentData['phone'] ?? null,
-                            'status' => $studentData['status'] ?? 'active',
-                            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-                        ]
-                    );
-                    $count++;
-                }
-            }
-        }
-
-        return back()->with('success', "$count students imported successfully.");
-    }
-
     public function create()
     {
         return view('admin.students.create');
@@ -98,16 +58,23 @@ class StudentController extends Controller
             'nim' => 'required|unique:students',
             'name' => 'required',
             'university' => 'required',
-            'major' => 'nullable|string|unique:students',
+            'major' => 'nullable|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',
             'status' => 'required|in:active,inactive,completed',
+        ], [
+            'nim.required' => 'NIM wajib diisi.',
+            'nim.unique' => 'NIM ini sudah terdaftar, gunakan NIM yang berbeda.',
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'university.required' => 'Asal universitas wajib diisi.',
+            'email.email' => 'Format alamat email tidak valid.',
+            'status.required' => 'Status wajib dipilih.',
         ]);
 
         $validated['password'] = Hash::make($request->nim);
 
         Student::create($validated);
-        return redirect()->route('admin.students.index')->with('success', 'Student created successfully. Password default adalah NIM masing-masing.');
+        return redirect()->route('admin.students.index')->with('success', 'Mahasiswa berhasil ditambahkan. Password default adalah NIM masing-masing.');
     }
 
     public function edit(Student $student)
@@ -128,12 +95,12 @@ class StudentController extends Controller
         ]);
 
         $student->update($validated);
-        return redirect()->route('admin.students.index')->with('success', 'Student updated successfully.');
+        return redirect()->route('admin.students.index')->with('success', 'Data mahasiswa berhasil diperbarui.');
     }
 
     public function destroy(Student $student)
     {
         $student->delete();
-        return redirect()->route('admin.students.index')->with('success', 'Student deleted successfully.');
+        return redirect()->route('admin.students.index')->with('success', 'Mahasiswa berhasil dihapus.');
     }
 }

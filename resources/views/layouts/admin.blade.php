@@ -252,9 +252,24 @@
             </button>
         </div>
         <div class="flex items-center gap-md ml-lg">
-            <button
-                class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative"><span
-                    class="material-symbols-outlined">notifications</span></button>
+            <div class="relative" id="notification-dropdown-container">
+                <button id="notification-btn"
+                    class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <!-- Optional Badge -->
+                    <!-- <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-error rounded-full border border-surface-container-lowest"></span> -->
+                </button>
+                <div id="notification-menu" class="hidden absolute right-0 mt-2 w-80 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 overflow-hidden z-50">
+                    <div class="px-4 py-3 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
+                        <span class="font-bold text-sm text-on-surface">Notifikasi</span>
+                    </div>
+                    <div class="max-h-80 overflow-y-auto custom-scrollbar">
+                        <div class="px-4 py-6 text-center text-on-surface-variant text-sm">
+                            Belum ada notifikasi baru.
+                        </div>
+                    </div>
+                </div>
+            </div>
             @if(auth()->user()->role === 'administrator')
             <a href="{{ route('admin.settings.index') }}"
                 class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all flex items-center justify-center" title="Pengaturan">
@@ -311,9 +326,21 @@
             }, 300);
         }
 
-        if (menuToggleBtn) menuToggleBtn.addEventListener('click', openSidebar);
-        if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
-        if (backdrop) backdrop.addEventListener('click', closeSidebar);
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationMenu = document.getElementById('notification-menu');
+
+        if (notificationBtn && notificationMenu) {
+            notificationBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notificationMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!notificationBtn.contains(e.target) && !notificationMenu.contains(e.target)) {
+                    notificationMenu.classList.add('hidden');
+                }
+            });
+        }
     </script>
 
     @stack('scripts')

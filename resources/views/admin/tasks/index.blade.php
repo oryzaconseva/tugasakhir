@@ -64,7 +64,6 @@
 <button type="submit" class="hidden">Search</button>
 </form>
 <div class="flex items-center gap-sm w-full sm:w-auto">
-<button class="flex-1 sm:flex-none px-md py-2 text-on-surface font-label-md text-label-md border border-outline-variant rounded-lg hover:bg-surface-container transition-all">Ekspor CSV</button>
 <button onclick="openAssignModal()" class="flex-1 sm:flex-none px-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-95">
     <span class="material-symbols-outlined text-[18px]">add</span>
     <span>Beri Tugas</span>
@@ -173,13 +172,12 @@
 >
     <span class="material-symbols-outlined text-[20px]">edit</span>
 </button>
-<form action="{{ route('admin.tasks.destroy', $task->id) }}" method="POST" class="inline m-0 p-0" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tugas ini?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="p-1.5 text-on-surface-variant hover:text-red-500 hover:bg-red-50 rounded transition-all">
-        <span class="material-symbols-outlined text-[20px]">delete</span>
-    </button>
-</form>
+<button type="button"
+    onclick="openDeleteTaskModal('{{ $task->id }}', '{{ addslashes($task->title) }}')"
+    class="p-1.5 text-on-surface-variant hover:text-red-500 hover:bg-red-50 rounded transition-all"
+    title="Hapus Tugas">
+    <span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
 </div>
 </td>
 </tr>
@@ -452,6 +450,44 @@
     </div>
 </div>
 
+<!-- Delete Task Modal -->
+<div id="deleteTaskModal" class="fixed inset-0 z-50 hidden">
+    <div onclick="closeDeleteTaskModal()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full sm:max-w-md bg-white rounded-2xl border border-outline-variant shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="deleteTaskModalBox">
+        <div class="px-lg py-md bg-red-50 border-b border-red-100 flex justify-between items-center">
+            <h3 class="font-headline-md text-[18px] font-bold text-error flex items-center gap-2">
+                <span class="material-symbols-outlined text-[22px] text-error">delete_forever</span>
+                <span>Hapus Tugas</span>
+            </h3>
+            <button onclick="closeDeleteTaskModal()" class="w-8 h-8 rounded-full hover:bg-red-100 flex items-center justify-center text-outline transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <div class="p-lg">
+            <div class="flex items-start gap-4 mb-lg">
+                <div class="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-error text-[22px]">warning</span>
+                </div>
+                <div>
+                    <p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Apakah Anda yakin ingin menghapus tugas ini?</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Tugas <span id="deleteTaskTitle" class="font-semibold text-on-surface"></span> akan dihapus secara permanen dan tidak dapat dikembalikan.</p>
+                </div>
+            </div>
+            <form id="deleteTaskForm" method="POST" class="m-0 p-0">
+                @csrf
+                @method('DELETE')
+                <div class="flex justify-end gap-sm">
+                    <button type="button" onclick="closeDeleteTaskModal()" class="px-md py-2 text-slate-700 hover:bg-slate-100 rounded-lg text-sm font-semibold transition-all">Batal</button>
+                    <button type="submit" class="px-md py-2 bg-error text-white hover:bg-red-700 rounded-lg text-sm font-semibold shadow-md transition-all active:scale-95 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">delete</span>
+                        Hapus Permanen
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     function openAssignModal() {
         const modal = document.getElementById('assignTaskModal');
@@ -493,7 +529,7 @@
             currentAttachmentDiv.innerHTML = `
                 <div class="mt-2 text-xs font-medium text-primary flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">attachment</span>
-                    <a href="/storage/${task.task_file}" target="_blank" class="hover:underline">View Current Attachment</a>
+                    <a href="/storage/${task.task_file}" target="_blank" class="hover:underline">Lihat Lampiran Saat Ini</a>
                 </div>
             `;
         } else {
@@ -512,11 +548,11 @@
                 <div class="w-full bg-teal-50 border border-teal-200 rounded-xl px-4 py-2 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-teal-600 text-sm">check_circle</span>
-                        <span class="text-xs font-semibold text-teal-950">Submitted Proof</span>
+                        <span class="text-xs font-semibold text-teal-950">Bukti Telah Dikumpulkan</span>
                     </div>
                     <a href="/storage/${task.task_proof}" target="_blank" class="text-xs font-bold text-teal-700 hover:underline flex items-center gap-1">
                         <span class="material-symbols-outlined text-xs">download</span>
-                        Download Bukti
+                        Unduh Bukti
                     </a>
                 </div>
             `;
@@ -524,7 +560,7 @@
             proofDiv.innerHTML = `
                 <div class="w-full bg-surface-container-low border border-dashed border-outline-variant rounded-xl px-4 py-2 flex items-center gap-2 text-on-surface-variant">
                     <span class="material-symbols-outlined text-xs">info</span>
-                    <span class="text-[11px] font-medium">No proof uploaded yet</span>
+                    <span class="text-[11px] font-medium">Belum ada bukti yang dikumpulkan</span>
                 </div>
             `;
         }
@@ -568,7 +604,47 @@
                 openEditTaskModal(task);
             });
         });
+
+        // Validasi HTML5 dalam bahasa Indonesia
+        const validationMessages = {
+            title:       { valueMissing: 'Judul tugas wajib diisi.' },
+            description: { valueMissing: 'Deskripsi tugas wajib diisi.' },
+            due_date:    { valueMissing: 'Tanggal tenggat wajib diisi.' },
+            priority:    { valueMissing: 'Prioritas tugas wajib dipilih.' },
+            'student_ids[]': { valueMissing: 'Pilih minimal satu mahasiswa penerima tugas.' },
+        };
+        document.querySelectorAll('input[required], select[required], textarea[required]').forEach(input => {
+            input.addEventListener('invalid', () => {
+                const msg = validationMessages[input.name] || {};
+                input.setCustomValidity(input.validity.valueMissing
+                    ? (msg.valueMissing || 'Field ini wajib diisi.')
+                    : '');
+            });
+            input.addEventListener('input', () => input.setCustomValidity(''));
+            input.addEventListener('change', () => input.setCustomValidity(''));
+        });
     });
+
+    function openDeleteTaskModal(taskId, taskTitle) {
+        const modal = document.getElementById('deleteTaskModal');
+        const box = document.getElementById('deleteTaskModalBox');
+        const form = document.getElementById('deleteTaskForm');
+        document.getElementById('deleteTaskTitle').textContent = taskTitle;
+        form.action = `/admin/tasks/${taskId}`;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            box.classList.remove('scale-95', 'opacity-0');
+            box.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
+
+    function closeDeleteTaskModal() {
+        const modal = document.getElementById('deleteTaskModal');
+        const box = document.getElementById('deleteTaskModalBox');
+        box.classList.remove('scale-100', 'opacity-100');
+        box.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
+    }
 </script>
 
 @endsection

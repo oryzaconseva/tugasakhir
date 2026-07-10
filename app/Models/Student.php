@@ -41,4 +41,9 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function appNotifications()
+    {
+        return $this->hasMany(AppNotification::class);
+    }
 }

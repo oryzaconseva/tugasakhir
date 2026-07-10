@@ -46,6 +46,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/attendances/check-out', [AttendanceController::class, 'checkOut']);
 
     // Leave Requests
+    // Leave Requests
     Route::get('/leave-requests', [LeaveRequestController::class, 'index']);
     Route::post('/leave-requests', [LeaveRequestController::class, 'store']);
+
+    // Notifications
+    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
+    Route::get('/notifications/unread-count', [\App\Http\Controllers\Api\NotificationController::class, 'unreadCount']);
+    Route::post('/notifications/read-all', [\App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
+    Route::post('/notifications/{id}/read', [\App\Http\Controllers\Api\NotificationController::class, 'markAsRead']);
 });

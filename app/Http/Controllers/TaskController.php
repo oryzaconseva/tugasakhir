@@ -72,14 +72,26 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'required|string',
-            'due_date' => 'required|date',
-            'status' => 'nullable|in:pending,in_progress,completed',
-            'priority' => 'required|in:normal,high,urgent',
+            'due_date'    => 'required|date',
+            'status'      => 'nullable|in:pending,in_progress,completed',
+            'priority'    => 'required|in:normal,high,urgent',
             'student_ids' => 'required|array',
             'student_ids.*' => 'exists:students,id',
-            'task_file' => 'nullable|file|mimes:pdf,zip|max:20480',
+            'task_file'   => 'nullable|file|mimes:pdf,zip|max:20480',
+        ], [
+            'title.required'       => 'Judul tugas wajib diisi.',
+            'title.max'            => 'Judul tugas maksimal 255 karakter.',
+            'description.required' => 'Deskripsi tugas wajib diisi.',
+            'due_date.required'    => 'Tanggal tenggat wajib diisi.',
+            'due_date.date'        => 'Format tanggal tenggat tidak valid.',
+            'priority.required'    => 'Prioritas tugas wajib dipilih.',
+            'priority.in'          => 'Prioritas tidak valid.',
+            'student_ids.required' => 'Pilih minimal satu mahasiswa penerima tugas.',
+            'student_ids.array'    => 'Data mahasiswa tidak valid.',
+            'task_file.mimes'      => 'File tugas harus berformat PDF atau ZIP.',
+            'task_file.max'        => 'Ukuran file tugas maksimal 20MB.',
         ]);
 
         $taskFilePath = null;
@@ -88,7 +100,7 @@ class TaskController extends Controller
         }
 
         foreach ($validated['student_ids'] as $studentId) {
-            Task::create([
+            $task = Task::create([
                 'student_id' => $studentId,
                 'title' => $validated['title'],
                 'description' => $validated['description'],
@@ -97,9 +109,16 @@ class TaskController extends Controller
                 'priority' => $validated['priority'],
                 'task_file' => $taskFilePath,
             ]);
+
+            \App\Models\AppNotification::create([
+                'student_id' => $studentId,
+                'title' => 'Tugas Baru',
+                'message' => 'Anda mendapatkan tugas baru: ' . $task->title,
+                'type' => 'task',
+            ]);
         }
 
-        return redirect()->route('admin.tasks.index')->with('success', 'Tasks assigned successfully to selected interns.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Tugas berhasil diberikan kepada mahasiswa yang dipilih.');
     }
 
     /**
@@ -136,12 +155,22 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'required|string',
-            'due_date' => 'required|date',
-            'status' => 'required|in:pending,in_progress,completed',
-            'priority' => 'required|in:normal,high,urgent',
-            'task_file' => 'nullable|file|mimes:pdf,zip|max:20480',
+            'due_date'    => 'required|date',
+            'status'      => 'required|in:pending,in_progress,completed',
+            'priority'    => 'required|in:normal,high,urgent',
+            'task_file'   => 'nullable|file|mimes:pdf,zip|max:20480',
+        ], [
+            'title.required'       => 'Judul tugas wajib diisi.',
+            'title.max'            => 'Judul tugas maksimal 255 karakter.',
+            'description.required' => 'Deskripsi tugas wajib diisi.',
+            'due_date.required'    => 'Tanggal tenggat wajib diisi.',
+            'due_date.date'        => 'Format tanggal tenggat tidak valid.',
+            'status.required'      => 'Status tugas wajib dipilih.',
+            'priority.required'    => 'Prioritas tugas wajib dipilih.',
+            'task_file.mimes'      => 'File tugas harus berformat PDF atau ZIP.',
+            'task_file.max'        => 'Ukuran file tugas maksimal 20MB.',
         ]);
 
         if ($request->hasFile('task_file')) {
@@ -154,7 +183,7 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return redirect()->route('admin.tasks.index')->with('success', 'Task updated successfully.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Tugas berhasil diperbarui.');
     }
 
     /**
@@ -168,6 +197,6 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return redirect()->route('admin.tasks.index')->with('success', 'Task deleted successfully.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Tugas berhasil dihapus.');
     }
 }

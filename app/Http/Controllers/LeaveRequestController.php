@@ -31,6 +31,15 @@ class LeaveRequestController extends Controller
         ]);
 
         $leaveRequest->update(['status' => $validated['status']]);
-        return back()->with('success', 'Leave request verified.');
+
+        $statusText = $validated['status'] == 'approved' ? 'disetujui' : 'ditolak';
+        \App\Models\AppNotification::create([
+            'student_id' => $leaveRequest->student_id,
+            'title' => 'Pembaruan Status Izin',
+            'message' => 'Pengajuan izin Anda telah ' . $statusText . '.',
+            'type' => 'leave',
+        ]);
+
+        return back()->with('success', 'Pengajuan izin telah ' . $statusText . '.');
     }
 }
